@@ -1,7 +1,9 @@
 package com.sarafinmahtab.tripbd;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,15 +11,12 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by Arafin on 7/24/2017.
  */
 
 public class SearchQueryListAdapter extends BaseAdapter {
-
-    // Declare Variables
 
     private Context context;
     private LayoutInflater inflater;
@@ -67,24 +66,25 @@ public class SearchQueryListAdapter extends BaseAdapter {
         }
         // Set the results into TextViews
         holder.placeName.setText(placeList.get(position).getPinPointName());
+
         return view;
     }
 
     // Filter Class
-    public void filter(String charText) {
-        charText = charText.toLowerCase(Locale.getDefault());
-
-        placeList.clear();
-
-        if (charText.length() == 0) {
-            placeList.addAll(placeArraylist);
-        } else {
-            for (Place placeObj : placeArraylist) {
-                if (placeObj.getPinPointName().toLowerCase(Locale.getDefault()).contains(charText)) {
-                    placeList.add(placeObj);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
+//    public void filter(String charText) {
+//        charText = charText.toLowerCase(Locale.getDefault());
+//
+//        placeList.clear();
+//
+//        if (charText.length() == 0) {
+//            placeList.addAll(placeArraylist);
+//        } else {
+//            for (Place placeObj : placeArraylist) {
+//                if (placeObj.getPinPointName().toLowerCase(Locale.getDefault()).contains(charText)) {
+//                    placeList.add(placeObj);
+//                }
+//            }
+//        }
+//        notifyDataSetChanged();
+//    }
 }

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -24,9 +25,15 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,8 +48,14 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
@@ -55,8 +68,9 @@ public class MainActivity extends AppCompatActivity
     ListView list;
     SearchQueryListAdapter adapter;
     SearchView searchView;
-    String[] placeList;
     ArrayList<Place> arraylist = new ArrayList<>();
+
+    String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,26 +106,7 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        To Do From Here
-        placeList = new String[]{"Lion", "Tiger", "Dog",
-                "Cat", "Tortoise", "Rat", "Elephant", "Fox",
-                "Cow","Donkey","Monkey"};
-
-//        placeList = new String[] {};
-
         list = (ListView) findViewById(R.id.listView);
-
-        for (String placeName : placeList) {
-            Place placeObj = new Place("1", placeName, "0.0", "0.0");
-            // Binds all strings into an array
-            arraylist.add(placeObj);
-        }
-
-        // Pass results to ListViewAdapter Class
-        adapter = new SearchQueryListAdapter(this, arraylist);
-
-        // Binds the Adapter to the ListView
-        list.setAdapter(adapter);
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
 //        searchView.setQueryHint("Enter Text");
@@ -133,9 +128,64 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
-//                Toast.makeText(SearchActivity.this, newText, Toast.LENGTH_LONG).show();
-                adapter.filter(newText);
+            public boolean onQueryTextChange(final String newText) {
+//                Toast.makeText(MainActivity.this, newText, Toast.LENGTH_LONG).show();
+
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, searchQueryRequest_url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            JSONArray jsonArray = jsonObject.getJSONArray("place_query_list");
+                            arraylist.clear();
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject obj = jsonArray.getJSONObject(i);
+                                Place placeObj = new Place(obj.getString("centre_point_id"),
+                                        obj.getString("centre_point_name"));
+
+                                // Binds all strings into an array
+                                arraylist.add(placeObj);
+                            }
+
+                            // Pass results to ListViewAdapter Class
+                            adapter = new SearchQueryListAdapter(MainActivity.this, arraylist);
+
+                            // Binds the Adapter to the ListView
+                            list.setAdapter(adapter);
+                            adapter.notifyDataSetChanged();
+
+                            list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                                    Place placeObj = adapter.getItem(i);
+
+                                    Toast.makeText(MainActivity.this, placeObj.getPinPointName(), Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        } catch (JSONException e) {
+                            arraylist.clear();
+//                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("query_text_change", newText);
+                        return params;
+                    }
+                };
+
+//                adapter.filter(newText);
+                MySingleton.getMyInstance(MainActivity.this).addToRequestQueue(stringRequest);
                 return false;
             }
         });

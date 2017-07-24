@@ -5,13 +5,11 @@ package com.sarafinmahtab.tripbd;
  */
 
 public class Place {
-    private String pinPointID, pinPointName, latitude, longitude;
+    private String pinPointID, pinPointName;
 
-    public Place(String pinPointID, String pinPointName, String latitude, String longitude) {
+    public Place(String pinPointID, String pinPointName) {
         this.pinPointID = pinPointID;
         this.pinPointName = pinPointName;
-        this.latitude = latitude;
-        this.longitude = longitude;
     }
 
     public String getPinPointID() {
@@ -20,13 +18,5 @@ public class Place {
 
     public String getPinPointName() {
         return this.pinPointName;
-    }
-
-    public String getLatitude() {
-        return latitude;
-    }
-
-    public String getLongitude() {
-        return longitude;
     }
 }
