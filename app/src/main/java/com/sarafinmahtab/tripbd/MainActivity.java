@@ -1,8 +1,8 @@
 package com.sarafinmahtab.tripbd;
 
-import android.*;
 import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -10,11 +10,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -22,8 +23,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -38,19 +39,24 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     GoogleMap homeGoogleMap;
-    SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
+
+    ListView list;
+    SearchQueryListAdapter adapter;
+    SearchView searchView;
+    String[] placeList;
+    ArrayList<Place> arraylist = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +91,54 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+//        To Do From Here
+        placeList = new String[]{"Lion", "Tiger", "Dog",
+                "Cat", "Tortoise", "Rat", "Elephant", "Fox",
+                "Cow","Donkey","Monkey"};
+
+//        placeList = new String[] {};
+
+        list = (ListView) findViewById(R.id.listView);
+
+        for (String placeName : placeList) {
+            Place placeObj = new Place("1", placeName, "0.0", "0.0");
+            // Binds all strings into an array
+            arraylist.add(placeObj);
+        }
+
+        // Pass results to ListViewAdapter Class
+        adapter = new SearchQueryListAdapter(this, arraylist);
+
+        // Binds the Adapter to the ListView
+        list.setAdapter(adapter);
+
+        searchView = (SearchView) findViewById(R.id.homeSearchView);
+//        searchView.setQueryHint("Enter Text");
+
+        searchView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                searchView.setIconified(false);
+            }
+        });
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                Toast.makeText(SearchActivity.this, query, Toast.LENGTH_LONG).show();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+//                Toast.makeText(SearchActivity.this, newText, Toast.LENGTH_LONG).show();
+                adapter.filter(newText);
+                return false;
+            }
+        });
     }
 
     private void initMap() {
@@ -104,7 +158,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onMapReady(GoogleMap googleMap) {
         homeGoogleMap = googleMap;
-        goToMapLocation(24.6045972, 90.2020908, 6.75f);
+        goToMapLocation(24.4100476,90.3309697,6.75f);
 
 //        homeGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
