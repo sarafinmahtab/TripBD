@@ -142,13 +142,13 @@ public class MainActivity extends AppCompatActivity
                         try {
 //                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
                             arraylist.clear();
-                            int len = 0;
+                            int len;
 
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("place_query_list");
 
-                            if(jsonArray.length() > 5) {
-                                len = 5;
+                            if(jsonArray.length() > 8) {
+                                len = 8;
                             } else {
                                 len = jsonArray.length();
                             }
@@ -195,13 +195,14 @@ public class MainActivity extends AppCompatActivity
 
                         if(newText.equals("")) {
                             arraylist.clear();
+
+//                            runOnUiThread(new Runnable() {
+//                                @Override
+//                                public void run() {
+//                                    adapter.notifyDataSetChanged();
+//                                }
+//                            });
                         }
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                list.setVisibility(View.VISIBLE);
-//                            }
-//                        });
 
                         params.put("query_text_change", newText);
                         return params;
