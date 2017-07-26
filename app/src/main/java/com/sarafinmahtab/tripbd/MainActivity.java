@@ -49,6 +49,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -75,6 +76,10 @@ public class MainActivity extends AppCompatActivity
     ArrayList<Place> arraylist = new ArrayList<>();
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
+    String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
+
+//    String searchQueryRequest_url = "http://10.100.173.234/TripBD/searchview_place_name_query.php";
+//    String markerList_url = "http://10.100.173.234/TripBD/center_point_marker_loader.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -280,6 +285,46 @@ public class MainActivity extends AppCompatActivity
             homeGoogleMap.setMinZoomPreference(6.0f);
             homeGoogleMap.setMaxZoomPreference(19.0f);
         }
+
+        addMarker(googleMap);
+    }
+
+    private void addMarker(final GoogleMap googleMap) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, markerList_url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonObject = new JSONObject(response);
+                    JSONArray jsonArray = jsonObject.getJSONArray("center_point_marker_list");
+
+                    for(int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject obj = jsonArray.getJSONObject(i);
+
+                        LatLng latLng = new LatLng(Double.parseDouble(obj.getString("latitude")),
+                                Double.parseDouble(obj.getString("longitude")));
+                        googleMap.addMarker(new MarkerOptions().position(latLng)
+                                .title(obj.getString("centre_point_name")));
+//                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sylhet));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+//                LatLng sylhet = new LatLng(24.904539, 91.861101);
+//                googleMap.addMarker(new MarkerOptions().position(sylhet)
+//                        .title("Sylhet"));
+//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sylhet));
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                error.printStackTrace();
+            }
+        });
+
+        MySingleton.getMyInstance(MainActivity.this).addToRequestQueue(stringRequest);
     }
 
     protected synchronized void buildGoogleApiClient() {
