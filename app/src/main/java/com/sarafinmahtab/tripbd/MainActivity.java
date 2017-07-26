@@ -26,6 +26,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -68,6 +70,8 @@ public class MainActivity extends AppCompatActivity
     ListView list;
     SearchQueryListAdapter adapter;
     SearchView searchView;
+    ImageView closeButton;
+    EditText searchEditText;
     ArrayList<Place> arraylist = new ArrayList<>();
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
@@ -109,6 +113,7 @@ public class MainActivity extends AppCompatActivity
         list = (ListView) findViewById(R.id.listView);
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
+        searchEditText = (EditText) findViewById(R.id.search_src_text);
 //        searchView.setQueryHint("Enter Text");
 
         searchView.setOnClickListener(new View.OnClickListener() {
@@ -135,11 +140,20 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResponse(String response) {
                         try {
+//                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                            arraylist.clear();
+                            int len = 0;
+
                             JSONObject jsonObject = new JSONObject(response);
                             JSONArray jsonArray = jsonObject.getJSONArray("place_query_list");
-                            arraylist.clear();
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
+                            if(jsonArray.length() > 5) {
+                                len = 5;
+                            } else {
+                                len = jsonArray.length();
+                            }
+
+                            for (int i = 0; i < len; i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 Place placeObj = new Place(obj.getString("centre_point_id"),
                                         obj.getString("centre_point_name"));
@@ -150,12 +164,12 @@ public class MainActivity extends AppCompatActivity
 
                             // Pass results to ListViewAdapter Class
                             adapter = new SearchQueryListAdapter(MainActivity.this, arraylist);
+                            adapter.notifyDataSetChanged();
 
                             // Binds the Adapter to the ListView
                             list.setAdapter(adapter);
-                            adapter.notifyDataSetChanged();
 
-                            list.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                     Place placeObj = adapter.getItem(i);
@@ -164,7 +178,6 @@ public class MainActivity extends AppCompatActivity
                                 }
                             });
                         } catch (JSONException e) {
-                            arraylist.clear();
 //                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
@@ -179,6 +192,17 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
+
+                        if(newText.equals("")) {
+                            arraylist.clear();
+                        }
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                list.setVisibility(View.VISIBLE);
+//                            }
+//                        });
+
                         params.put("query_text_change", newText);
                         return params;
                     }
@@ -187,6 +211,26 @@ public class MainActivity extends AppCompatActivity
 //                adapter.filter(newText);
                 MySingleton.getMyInstance(MainActivity.this).addToRequestQueue(stringRequest);
                 return false;
+            }
+        });
+
+        closeButton = searchView.findViewById(R.id.search_close_btn);
+
+        // Set on cross button click listener
+        closeButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                //Find EditText view
+
+//
+//                //Clear the text from EditText view
+                searchEditText.setText("");
+                //Clear query
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                arraylist.clear();
+                adapter.notifyDataSetChanged();
             }
         });
     }
