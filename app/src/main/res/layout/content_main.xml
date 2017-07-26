@@ -20,7 +20,7 @@
         android:layout_marginTop="55dp"
         android:background="@drawable/searchview_border"
         android:orientation="horizontal"
-        app:queryHint="Find places to make Trip"
+        app:queryHint="Find Tour Places"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
