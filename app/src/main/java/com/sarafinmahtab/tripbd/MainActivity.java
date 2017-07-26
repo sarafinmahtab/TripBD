@@ -48,7 +48,10 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import org.json.JSONArray;
@@ -227,10 +230,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                //Find EditText view
-
-//
-//                //Clear the text from EditText view
+                //Clear the text from EditText view
                 searchEditText.setText("");
                 //Clear query
                 searchView.setQuery("", false);
@@ -303,9 +303,40 @@ public class MainActivity extends AppCompatActivity
 
                         LatLng latLng = new LatLng(Double.parseDouble(obj.getString("latitude")),
                                 Double.parseDouble(obj.getString("longitude")));
-                        googleMap.addMarker(new MarkerOptions().position(latLng)
+                        googleMap
+                                .addMarker(new MarkerOptions().position(latLng)
+                                .icon(BitmapDescriptorFactory.fromResource(R.drawable.pin_point))
                                 .title(obj.getString("centre_point_name")));
-//                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sylhet));
+
+                        final Marker[] lastOpenned = {null};
+                        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                            @Override
+                            public boolean onMarkerClick(Marker marker) {
+
+                                // Check if there is an open info window
+                                if (lastOpenned[0] != null) {
+                                    // Close the info window
+                                    lastOpenned[0].hideInfoWindow();
+
+                                    // Is the marker the same marker that was already open
+                                    if (lastOpenned[0].equals(marker)) {
+                                        // Nullify the lastOpenned object
+                                        lastOpenned[0] = null;
+                                        // Return so that the info window isn't openned again
+                                        return true;
+                                    }
+                                }
+
+                                // Open the info window for the marker
+                                marker.showInfoWindow();
+                                // Re-assign the last openned such that we can close it later
+                                lastOpenned[0] = marker;
+
+                                // Event was handled by our code do not launch default behaviour.
+                                return true;
+                            }
+                        });
+//                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
