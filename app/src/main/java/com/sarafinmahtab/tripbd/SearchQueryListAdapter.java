@@ -16,14 +16,14 @@ import java.util.List;
  * Created by Arafin on 7/24/2017.
  */
 
-public class SearchQueryListAdapter extends BaseAdapter {
+class SearchQueryListAdapter extends BaseAdapter {
 
     private Context context;
     private LayoutInflater inflater;
     private List<Place> placeList = null;
     private ArrayList<Place> placeArraylist;
 
-    public SearchQueryListAdapter(Context context, List<Place> placeList) {
+    SearchQueryListAdapter(Context context, List<Place> placeList) {
         this.context = context;
         this.placeList = placeList;
 
@@ -65,26 +65,7 @@ public class SearchQueryListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.placeName.setText(String.valueOf(placeList.get(position).getPinPointName()));
-
+        holder.placeName.setText(String.valueOf(placeList.get(position).getCentrePointName()));
         return view;
     }
-
-    // Filter Class
-//    public void filter(String charText) {
-//        charText = charText.toLowerCase(Locale.getDefault());
-//
-//        placeList.clear();
-//
-//        if (charText.length() == 0) {
-//            placeList.addAll(placeArraylist);
-//        } else {
-//            for (Place placeObj : placeArraylist) {
-//                if (placeObj.getPinPointName().toLowerCase(Locale.getDefault()).contains(charText)) {
-//                    placeList.add(placeObj);
-//                }
-//            }
-//        }
-//        notifyDataSetChanged();
-//    }
 }

@@ -4,19 +4,19 @@ package com.sarafinmahtab.tripbd;
  * Created by Arafin on 7/24/2017.
  */
 
-public class Place {
-    private String pinPointID, pinPointName;
+class Place {
+    private String centrePointID, centrePointName;
 
-    public Place(String pinPointID, String pinPointName) {
-        this.pinPointID = pinPointID;
-        this.pinPointName = pinPointName;
+    Place(String centrePointID, String centrePointName) {
+        this.centrePointID = centrePointID;
+        this.centrePointName = centrePointName;
     }
 
-    public String getPinPointID() {
-        return pinPointID;
+    String getCentrePointID() {
+        return this.centrePointID;
     }
 
-    public String getPinPointName() {
-        return this.pinPointName;
+    String getCentrePointName() {
+        return centrePointName;
     }
 }
