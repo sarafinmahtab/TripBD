@@ -70,6 +70,9 @@ public class MainActivity extends AppCompatActivity
     ImageView closeButton;
     EditText searchEditText;
     ArrayList<Place> arraylist = new ArrayList<>();
+    ArrayList<Place> tempList = new ArrayList<>();
+
+    boolean onQuery = false;
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
     String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
         searchEditText = (EditText) findViewById(R.id.search_src_text);
-//        searchView.setQueryHint("Enter Text");
+//        searchEditText.setHint("Find Tour Places");
 
         searchView.setOnClickListener(new View.OnClickListener() {
 
@@ -129,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                Toast.makeText(SearchActivity.this, query, Toast.LENGTH_LONG).show();
+
                 return true;
             }
 
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity
                     public void onResponse(String response) {
                         try {
 //                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
+                            onQuery = true;
                             arraylist.clear();
                             int len;
 
@@ -196,7 +200,8 @@ public class MainActivity extends AppCompatActivity
 
                         if(newText.equals("")) {
                             arraylist.clear();
-
+                            params.put("query_text_change", "DhakaChittagongSylhet");
+                            return params;
 //                            runOnUiThread(new Runnable() {
 //                                @Override
 //                                public void run() {
@@ -223,13 +228,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-                //Clear the text from EditText view
-                searchEditText.setText("");
-                //Clear query
-                searchView.setQuery("", false);
+                if(onQuery) {
+                    //Clear the text from EditText view
+                    searchEditText.setText("");
+
+                    //Clear query
+                    searchView.setQuery("", false);
+                    adapter.notifyDataSetChanged();
+                }
+
                 searchView.clearFocus();
                 arraylist.clear();
-                adapter.notifyDataSetChanged();
             }
         });
     }
