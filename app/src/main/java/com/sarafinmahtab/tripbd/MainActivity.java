@@ -3,7 +3,9 @@ package com.sarafinmahtab.tripbd;
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,9 +24,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -70,8 +74,8 @@ public class MainActivity extends AppCompatActivity
     ImageView closeButton;
     EditText searchEditText;
     ArrayList<Place> arraylist = new ArrayList<>();
-    ArrayList<Place> tempList = new ArrayList<>();
 
+    String centrePoint, centrePointID, centrePointBang, latitude, longitude;
     boolean onQuery = false;
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
@@ -178,7 +182,9 @@ public class MainActivity extends AppCompatActivity
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                     Place placeObj = adapter.getItem(i);
-
+//                                    adapter.notifyDataSetChanged();
+                                    Intent intent = new Intent(MainActivity.this, BroadActivity.class);
+                                    startActivity(intent);
                                     Toast.makeText(MainActivity.this, placeObj.getCentrePointID(), Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -289,6 +295,38 @@ public class MainActivity extends AppCompatActivity
         }
 
         addMarker(googleMap);
+
+        getInfoWindow();
+    }
+
+    private void getInfoWindow() {
+        homeGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker) {
+                View view = getLayoutInflater().inflate(R.layout.marker_info_window, null);
+
+                TextView name = view.findViewById(R.id.place_name);
+                TextView lat_long = view.findViewById(R.id.lat_long);
+
+                LatLng ll = marker.getPosition();
+                name.setText(marker.getTitle());
+                lat_long.setText(ll.latitude + ", " + ll.longitude);
+
+                return view;
+            }
+        });
+
+        homeGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Toast.makeText(MainActivity.this, (String) marker.getTag(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     private void addMarker(final GoogleMap googleMap) {
@@ -308,7 +346,8 @@ public class MainActivity extends AppCompatActivity
                         googleMap
                                 .addMarker(new MarkerOptions().position(latLng)
                                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_red_pin))
-                                .title(obj.getString("centre_point_name") + " (" + obj.getString("cp_bangla_name") + ")"));
+                                .title(obj.getString("centre_point_name") + " (" + obj.getString("cp_bangla_name") + ")")
+                                ).setTag(obj.getString("centre_point_id"));
 
                         final Marker[] lastOpenned = {null};
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
