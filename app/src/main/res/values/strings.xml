@@ -6,4 +6,9 @@
 
     <string name="action_settings">Settings</string>
     <string name="search_hint">Find Tour Places</string>
+    <string name="view_listview">View List</string>
+    <string name="marker_title">Title</string>
+    <string name="marker_lat_n_long">Lat n Long</string>
+    <string name="marker_details">Details</string>
+    <string name="place_name_item">Place Name</string>
 </resources>

@@ -17,17 +17,15 @@
         android:id="@+id/place_name"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        android:layout_marginLeft="3dp"
         android:layout_weight="0.63"
         android:background="@android:color/white"
         android:padding="5dp"
-        android:text="Course Title"
+        android:text="@string/place_name_item"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/course_code_item"
         app:layout_constraintRight_toRightOf="parent" />
 
 </LinearLayout>

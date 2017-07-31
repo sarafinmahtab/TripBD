@@ -13,8 +13,10 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
+import android.view.Menu;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -25,9 +27,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -183,8 +187,6 @@ public class MainActivity extends AppCompatActivity
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                     Place placeObj = adapter.getItem(i);
 //                                    adapter.notifyDataSetChanged();
-                                    Intent intent = new Intent(MainActivity.this, BroadActivity.class);
-                                    startActivity(intent);
                                     Toast.makeText(MainActivity.this, placeObj.getCentrePointID(), Toast.LENGTH_LONG).show();
                                 }
                             });
@@ -324,7 +326,19 @@ public class MainActivity extends AppCompatActivity
         homeGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(MainActivity.this, (String) marker.getTag(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.this, BroadActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("marker_id", String.valueOf(marker.getTag()));
+                bundle.putString("marker_title", marker.getTitle());
+                bundle.putString("latitude", String.valueOf(marker.getPosition().latitude));
+                bundle.putString("longitude", String.valueOf(marker.getPosition().longitude));
+                intent.putExtras(bundle);
+
+                Toast.makeText(MainActivity.this, String.valueOf(marker.getTag()), Toast.LENGTH_LONG).show();
+
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
     }
@@ -543,27 +557,46 @@ public class MainActivity extends AppCompatActivity
         return false;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        MenuItem menuItem = menu.findItem(R.id.mySwitch);
+        View view = menuItem.getActionView();
+        Switch switchForList = view.findViewById(R.id.switchForToolBar);
+        switchForList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+//        if (switchForList.isChecked()) {
+//            Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_LONG).show();
 //        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        } else if (id == R.id.mySwitch) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onBackPressed() {

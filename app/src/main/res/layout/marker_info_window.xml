@@ -10,7 +10,7 @@
         android:id="@+id/place_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="@string/marker_title"
         android:textColor="@color/colorTripBDText"
         android:textSize="18sp"
         android:textStyle="bold" />
@@ -19,14 +19,14 @@
         android:id="@+id/lat_long"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lat n Long"
+        android:text="@string/marker_lat_n_long"
         android:textSize="12sp" />
 
     <TextView
         android:id="@+id/details"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Details"
+        android:text="@string/marker_details"
         android:textSize="14sp" />
 
 </LinearLayout>
