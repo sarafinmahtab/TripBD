@@ -29,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -564,19 +565,16 @@ public class MainActivity extends AppCompatActivity
 
         MenuItem menuItem = menu.findItem(R.id.mySwitch);
         View view = menuItem.getActionView();
-        Switch switchForList = view.findViewById(R.id.switchForToolBar);
-        switchForList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        ImageButton switchView = view.findViewById(R.id.switchButton);
+
+        switchView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
-                    Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_LONG).show();
-                }
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, MainListActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
             }
         });
-
-//        if (switchForList.isChecked()) {
-//            Toast.makeText(MainActivity.this, "Hi", Toast.LENGTH_LONG).show();
-//        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -589,10 +587,11 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        } else if (id == R.id.mySwitch) {
-            return true;
+        switch (id) {
+            case R.id.mySwitch:
+                return true;
+            case R.id.action_settings:
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
@@ -614,18 +613,25 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        switch (id) {
+            case R.id.nav_camera:
+                // Handle the camera action
+                break;
+            case R.id.nav_gallery:
 
-        } else if (id == R.id.nav_slideshow) {
+                break;
+            case R.id.nav_slideshow:
 
-        } else if (id == R.id.nav_manage) {
+                break;
+            case R.id.nav_manage:
 
-        } else if (id == R.id.nav_share) {
+                break;
+            case R.id.nav_share:
 
-        } else if (id == R.id.nav_send) {
+                break;
+            case R.id.nav_send:
 
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -11,4 +11,7 @@
     <string name="marker_lat_n_long">Lat n Long</string>
     <string name="marker_details">Details</string>
     <string name="place_name_item">Place Name</string>
+    <string name="view_mapview">View Map</string>
+    <string name="view_in_map">View in Map</string>
+    <string name="view_in_list">View in List</string>
 </resources>
