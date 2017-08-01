@@ -169,8 +169,9 @@ public class MainActivity extends AppCompatActivity
 
                             for (int i = 0; i < len; i++) {
                                 JSONObject obj = jsonArray.getJSONObject(i);
-                                Place placeObj = new Place(obj.getString("centre_point_id"),
-                                        obj.getString("centre_point_name"));
+                                Place placeObj = new Place(obj.getString("pin_point_id"),
+                                        obj.getString("pin_point_name"), obj.getString("pp_bangla_name"),
+                                        obj.getString("details_link"), obj.getString("centre_point_id"), obj.getString("lat_long_id"));
 
                                 // Binds all strings into an array
                                 arraylist.add(placeObj);
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                     Place placeObj = adapter.getItem(i);
 //                                    adapter.notifyDataSetChanged();
-                                    Toast.makeText(MainActivity.this, placeObj.getCentrePointID(), Toast.LENGTH_LONG).show();
+                                    Toast.makeText(MainActivity.this, placeObj.getPinPointName(), Toast.LENGTH_LONG).show();
                                 }
                             });
                         } catch (JSONException e) {

@@ -5,18 +5,38 @@ package com.sarafinmahtab.tripbd;
  */
 
 class Place {
-    private String centrePointID, centrePointName;
+    private String pinPointID, pinPointName, ppBanglaName, 	detailsLink, centrePointID, latLongID;
 
-    Place(String centrePointID, String centrePointName) {
+    Place(String pinPointID, String pinPointName, String ppBanglaName, String detailsLink, String centrePointID, String latLongID) {
+        this.pinPointID = pinPointID;
+        this.pinPointName = pinPointName;
+        this.ppBanglaName = ppBanglaName;
+        this.detailsLink = detailsLink;
         this.centrePointID = centrePointID;
-        this.centrePointName = centrePointName;
+        this.latLongID = latLongID;
+    }
+
+    String getPinPointID() {
+        return pinPointID;
+    }
+
+    String getPinPointName() {
+        return pinPointName;
+    }
+
+    String getPpBanglaName() {
+        return ppBanglaName;
+    }
+
+    String getDetailsLink() {
+        return detailsLink;
     }
 
     String getCentrePointID() {
-        return this.centrePointID;
+        return centrePointID;
     }
 
-    String getCentrePointName() {
-        return centrePointName;
+    String getLatLongID() {
+        return latLongID;
     }
 }

@@ -65,7 +65,7 @@ class SearchQueryListAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
         // Set the results into TextViews
-        holder.placeName.setText(String.valueOf(placeList.get(position).getCentrePointName()));
+        holder.placeName.setText(String.valueOf(placeList.get(position).getPinPointName()));
         return view;
     }
 }
