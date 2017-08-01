@@ -52,7 +52,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     String pinPointList_url = "";
     String markerID, markerTitle;
     double latitude = 24.8973476, longitude = 91.8542124;
-    float zoomlevel = 6;
+    float zoomlevel = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,7 +127,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
                 buildGoogleApiClient();
                 broadGoogleMap.setMyLocationEnabled(true);
                 broadGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-                broadGoogleMap.setMinZoomPreference(8.0f);
+                broadGoogleMap.setMinZoomPreference(6.0f);
                 broadGoogleMap.setMaxZoomPreference(20.0f);
             } else {
                 //Request Location Permission
@@ -138,7 +138,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
             buildGoogleApiClient();
             broadGoogleMap.setMyLocationEnabled(true);
             broadGoogleMap.getUiSettings().setZoomControlsEnabled(true);
-            broadGoogleMap.setMinZoomPreference(8.0f);
+            broadGoogleMap.setMinZoomPreference(6.0f);
             broadGoogleMap.setMaxZoomPreference(20.0f);
         }
 
@@ -149,7 +149,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void goToMapLocation(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, 14);
         broadGoogleMap.animateCamera(update);
     }
 

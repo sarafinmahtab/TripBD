@@ -188,6 +188,7 @@ public class MainActivity extends AppCompatActivity
                                 @Override
                                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                                     Place placeObj = adapter.getItem(i);
+
 //                                    adapter.notifyDataSetChanged();
                                     Toast.makeText(MainActivity.this, placeObj.getPinPointName(), Toast.LENGTH_LONG).show();
                                 }
