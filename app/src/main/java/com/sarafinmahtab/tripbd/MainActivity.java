@@ -616,23 +616,27 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.nav_camera:
-                // Handle the camera action
+            case R.id.nav_sign_in:
+                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                startActivity(intent);
+                overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;
-            case R.id.nav_gallery:
-
+            case R.id.nav_hotels:
+                Toast.makeText(MainActivity.this, "Hotels", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.nav_slideshow:
-
+            case R.id.nav_restaurants:
+                Toast.makeText(MainActivity.this, "Restaurant", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.nav_manage:
 
+            //Tools Part
+            case R.id.nav_share_app:
+                Toast.makeText(MainActivity.this, "Share App", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.nav_share:
-
+            case R.id.nav_like_us:
+                Toast.makeText(MainActivity.this, "Like", Toast.LENGTH_LONG).show();
                 break;
-            case R.id.nav_send:
-
+            case R.id.nav_about_us:
+                Toast.makeText(MainActivity.this, "About", Toast.LENGTH_LONG).show();
                 break;
         }
 

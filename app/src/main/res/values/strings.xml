@@ -14,4 +14,17 @@
     <string name="view_mapview">View Map</string>
     <string name="view_in_map">View in Map</string>
     <string name="view_in_list">View in List</string>
+    <string name="nav_sign_in">Profile</string>
+    <string name="nav_hotels">Hotels</string>
+    <string name="nav_restaurants">Restuarants</string>
+    <string name="tools">Tools</string>
+    <string name="nav_share_app">Share App</string>
+    <string name="nav_like_us">Like Us</string>
+    <string name="nav_about_us">About Us</string>
+    <string name="welcome_to_tripbd">Welcome to TripBD</string>
+    <string name="sign_in">Sign In</string>
+    <string name="tour_guide">Tour Guide</string>
+    <string name="sign_in_here">Sign In Here</string>
+    <string name="username_hint">Username</string>
+    <string name="paasword_hint">Paasword</string>
 </resources>

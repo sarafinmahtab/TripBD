@@ -57,7 +57,8 @@
             android:name=".BroadActivity"
             android:label="Navigate Places"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".MainListActivity"></activity>
+        <activity android:name=".MainListActivity" />
+        <activity android:name=".SignInActivity"></activity>
     </application>
 
 </manifest>

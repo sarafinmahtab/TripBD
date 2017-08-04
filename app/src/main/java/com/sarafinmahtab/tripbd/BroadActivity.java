@@ -75,7 +75,6 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
 
         latitude = Double.parseDouble(bundle.getString("latitude"));
         longitude = Double.parseDouble(bundle.getString("longitude"));
-        zoomlevel  = 6;
 
         if(getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
