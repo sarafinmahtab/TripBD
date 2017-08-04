@@ -87,7 +87,7 @@ public class SignInActivity extends AppCompatActivity {
                 register_frst = customView.findViewById(R.id.register_first);
 
                 builder.setView(customView)
-                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
                             }

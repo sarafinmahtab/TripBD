@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -53,7 +54,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     GoogleApiClient broadGoogleApiClient;
     Location broadLastLocation;
 
-    String pinPointList_url = "http://192.168.43.65/TripBD/pin_point_marker_loader.php";
+    String pinPointList_url = "http://10.101.2.249/TripBD/pin_point_marker_loader.php";
     String markerID, markerTitle;
     double latitude, longitude;
     float zoomlevel = 14;
@@ -174,7 +175,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
                                 .addMarker(new MarkerOptions().position(latLng)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_red_pin))
                                         .title(obj.getString("pin_point_name") + " (" + obj.getString("pp_bangla_name") + ")")
-                                ).setTag(obj.getString("pin_point_id"));
+                                ).setTag(obj.getString("details_link"));
 
                         final Marker[] lastOpenned = {null};
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -260,7 +261,13 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
         broadGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
-                Toast.makeText(BroadActivity.this, (String) marker.getTag(), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(BroadActivity.this, DetailsActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("details_link", String.valueOf(marker.getTag()));
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
         });
     }

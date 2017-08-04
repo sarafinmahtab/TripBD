@@ -27,4 +27,7 @@
     <string name="sign_in_here">Sign In Here</string>
     <string name="username_hint">Username</string>
     <string name="paasword_hint">Paasword</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

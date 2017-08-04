@@ -58,7 +58,9 @@
             android:label="Navigate Places"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainListActivity" />
-        <activity android:name=".SignInActivity"></activity>
+        <activity android:name=".SignInActivity" />
+        <activity android:name=".DetailsActivity" />
+        <activity android:name=".GuideActivity"></activity>
     </application>
 
 </manifest>
