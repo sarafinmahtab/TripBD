@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -42,6 +43,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class BroadActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
     GoogleMap broadGoogleMap;
@@ -49,9 +53,9 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     GoogleApiClient broadGoogleApiClient;
     Location broadLastLocation;
 
-    String pinPointList_url = "";
+    String pinPointList_url = "http://192.168.43.65/TripBD/pin_point_marker_loader.php";
     String markerID, markerTitle;
-    double latitude = 24.8973476, longitude = 91.8542124;
+    double latitude, longitude;
     float zoomlevel = 14;
 
     @Override
@@ -142,9 +146,9 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
             broadGoogleMap.setMaxZoomPreference(20.0f);
         }
 
-//        addMarker(googleMap);
-//
-//        getInfoWindow();
+        addMarker(googleMap);
+
+        getInfoWindow();
     }
 
     private void goToMapLocation(double lat, double lng, float zoom) {
@@ -160,7 +164,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
             public void onResponse(String response) {
                 try {
                     JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("center_point_marker_list");
+                    JSONArray jsonArray = jsonObject.getJSONArray("pin_point_marker_list");
 
                     for(int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
@@ -170,8 +174,8 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
                         googleMap
                                 .addMarker(new MarkerOptions().position(latLng)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_red_pin))
-                                        .title(obj.getString("centre_point_name") + " (" + obj.getString("cp_bangla_name") + ")")
-                                ).setTag(obj.getString("centre_point_id"));
+                                        .title(obj.getString("pin_point_name") + " (" + obj.getString("pp_bangla_name") + ")")
+                                ).setTag(obj.getString("pin_point_id"));
 
                         final Marker[] lastOpenned = {null};
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -218,11 +222,19 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
                 Toast.makeText(BroadActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("centre_point_id", markerID);
+
+                return params;
+            }
+        };
 
         MySingleton.getMyInstance(BroadActivity.this).addToRequestQueue(stringRequest);
     }
-
 
     private void getInfoWindow() {
         broadGoogleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
