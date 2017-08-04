@@ -1,6 +1,7 @@
 package com.sarafinmahtab.tripbd;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -13,7 +14,22 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class SignInActivity extends AppCompatActivity {
+
+    static boolean logged_in = false;
 
     EditText username, password;
     Button sign_in_btn, register_btn;
@@ -25,6 +41,9 @@ public class SignInActivity extends AppCompatActivity {
     RadioButton radioButton;
 
     public static int radio_key;
+
+    String guide_login_url = "http://10.101.2.249/TripBD/login.php";
+    String guide_reg_url = "http://10.101.2.249/TripBD/register.php";
 
     private AlertDialog.Builder alert_builder;
 
@@ -60,16 +79,71 @@ public class SignInActivity extends AppCompatActivity {
         sign_in_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(SignInActivity.this, username.getText().toString() + '\n'
-                        + password.getText().toString() + '\n'
-                        + String.valueOf(radio_key), Toast.LENGTH_LONG).show();
+                if(radio_key == 0) {
+                    builder_create("Login not possible", "Please select an alias!!");
+                } else {
+
+                    StringRequest loginStringRequest = new StringRequest(Request.Method.POST, guide_login_url, new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                String code = jsonObject.getString("code");
+
+                                switch (code) {
+                                    case "login_failed":
+                                        builder_create(code, jsonObject.getString("message"));
+                                        break;
+                                    case "login_success":
+                                        logged_in = true;
+
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("user_id", jsonObject.getString("user_id"));
+                                        bundle.putString("user_name", jsonObject.getString("user_name"));
+                                        bundle.putString("nick_name", jsonObject.getString("nick_name"));
+                                        bundle.putString("email", jsonObject.getString("email"));
+                                        bundle.putString("password", jsonObject.getString("password"));
+                                        bundle.putString("user_type_id", jsonObject.getString("user_type_id"));
+
+                                        Toast.makeText(SignInActivity.this, code, Toast.LENGTH_LONG).show();
+
+                                        SignInActivity.super.onBackPressed();
+                                        break;
+                                }
+                            } catch (JSONException e) {
+                                Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(SignInActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                            error.printStackTrace();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new HashMap<>();
+
+                            params.put("username", username.getText().toString());
+                            params.put("password", password.getText().toString());
+
+                            return params;
+                        }
+                    };
+
+                    MySingleton.getMyInstance(SignInActivity.this).addToRequestQueue(loginStringRequest);
+                }
             }
         });
 
         register_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(SignInActivity.this);
 
 //                        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
 
@@ -106,7 +180,48 @@ public class SignInActivity extends AppCompatActivity {
                              } else if(!pass_word.getText().toString().equals(confirm_pass.getText().toString())) {
                                  builder_create("Invalid Login", "Password didn't matched!!");
                              } else {
-                                 Toast.makeText(SignInActivity.this, "Hi", Toast.LENGTH_LONG).show();
+                                 StringRequest regStringRequest = new StringRequest(Request.Method.POST, guide_reg_url, new Response.Listener<String>() {
+                                     @Override
+                                     public void onResponse(String response) {
+                                         try {
+                                             JSONArray jsonArray = new JSONArray(response);
+                                             JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                             String code = jsonObject.getString("code");
+
+                                             switch(code) {
+                                                 case "reg_failed":
+                                                     builder_create("Registration Failed", jsonObject.getString("message"));
+                                                 case "reg_success":
+                                                     builder_create("Registration Success", jsonObject.getString("message"));
+                                             }
+                                         } catch (JSONException e) {
+                                             Toast.makeText(SignInActivity.this, response + '\n' + e.getMessage(), Toast.LENGTH_LONG).show();
+                                             e.printStackTrace();
+                                         }
+                                     }
+                                 }, new Response.ErrorListener() {
+                                     @Override
+                                     public void onErrorResponse(VolleyError error) {
+                                         Toast.makeText(SignInActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                         error.printStackTrace();
+                                     }
+                                 }) {
+                                     @Override
+                                     protected Map<String, String> getParams() throws AuthFailureError {
+
+                                         Map<String, String> params = new HashMap<>();
+
+                                         params.put("radio_key", String.valueOf(radio_key+1));
+                                         params.put("user_name", user_name.getText().toString());
+                                         params.put("nick_name", nick_name.getText().toString());
+                                         params.put("email", email.getText().toString());
+                                         params.put("pass_word", pass_word.getText().toString());
+
+                                         return params;
+                                     }
+                                 };
+
+                                 MySingleton.getMyInstance(SignInActivity.this).addToRequestQueue(regStringRequest);
                              }
                          }
                     }
@@ -121,10 +236,14 @@ public class SignInActivity extends AppCompatActivity {
         alert_builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.cancel();
             }
         });
         AlertDialog alertDialog = alert_builder.create();
         alertDialog.show();
+    }
+
+    public static boolean isLogged_in() {
+        return logged_in;
     }
 }

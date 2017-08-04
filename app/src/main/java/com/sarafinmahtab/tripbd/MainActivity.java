@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -80,7 +81,7 @@ public class MainActivity extends AppCompatActivity
     EditText searchEditText;
     ArrayList<Place> arraylist = new ArrayList<>();
 
-    String centrePoint, centrePointID, centrePointBang, latitude, longitude;
+    String user_id, nick_name, user_type_id;
     boolean onQuery = false;
 
     String searchQueryRequest_url = "http://10.101.2.249/TripBD/searchview_place_name_query.php";
@@ -122,6 +123,20 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View header = navigationView.getHeaderView(0);
+/*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+
+        //Bundles
+        if(SignInActivity.isLogged_in()) {
+            Bundle bundle = getIntent().getExtras();
+
+            user_id = bundle.getString("user_id");
+            nick_name = bundle.getString("nick_name");
+            user_type_id = bundle.getString("user_type_id");
+
+            TextView username = header.findViewById(R.id.bar_user_name);
+            username.setText(nick_name);
+        }
 
         list = (ListView) findViewById(R.id.listView);
 
@@ -623,7 +638,13 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_sign_in:
-                Intent intent = new Intent(MainActivity.this, SignInActivity.class);
+                Intent intent;
+                if(SignInActivity.isLogged_in()) {
+                    intent = new Intent(MainActivity.this, GuideProfile.class);
+                } else {
+                    intent = new Intent(MainActivity.this, SignInActivity.class);
+                }
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                 break;

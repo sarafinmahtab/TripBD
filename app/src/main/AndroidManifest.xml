@@ -60,7 +60,8 @@
         <activity android:name=".MainListActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".DetailsActivity" />
-        <activity android:name=".GuideActivity"></activity>
+        <activity android:name=".GuideActivity" />
+        <activity android:name=".GuideProfile"></activity>
     </application>
 
 </manifest>
