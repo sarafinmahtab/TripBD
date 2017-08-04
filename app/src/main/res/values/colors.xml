@@ -9,4 +9,13 @@
     <color name="colorAccent">#8f0d23</color>
 
     <color name="colorTripBDText">#1b0302</color>
+
+    <color name="fab1color">#DAF7A6</color>
+    <color name="fab2color">#FFC300</color>
+    <color name="fab3color">#FF5733</color>
+    <color name="fab4color">#C70039</color>
+    <color name="fab5color">#900C3F</color>
+    <color name="fab6color">#581845</color>
+
+    <color name="textBackground">#4f4a54</color>
 </resources>
