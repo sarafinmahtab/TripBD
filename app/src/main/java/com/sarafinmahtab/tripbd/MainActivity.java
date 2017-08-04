@@ -640,7 +640,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sign_in:
                 Intent intent;
                 if(SignInActivity.isLogged_in()) {
-                    intent = new Intent(MainActivity.this, GuideProfile.class);
+                    intent = new Intent(MainActivity.this, ProfileGuide.class);
                 } else {
                     intent = new Intent(MainActivity.this, SignInActivity.class);
                 }

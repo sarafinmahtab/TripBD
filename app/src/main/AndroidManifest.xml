@@ -61,7 +61,7 @@
         <activity android:name=".SignInActivity" />
         <activity android:name=".DetailsActivity" />
         <activity android:name=".GuideActivity" />
-        <activity android:name=".GuideProfile"></activity>
+        <activity android:name=".ProfileGuide"></activity>
     </application>
 
 </manifest>
