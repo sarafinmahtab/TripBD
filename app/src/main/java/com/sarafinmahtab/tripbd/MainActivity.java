@@ -641,6 +641,10 @@ public class MainActivity extends AppCompatActivity
                 Intent intent;
                 if(SignInActivity.isLogged_in()) {
                     intent = new Intent(MainActivity.this, ProfileGuide.class);
+
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user_id", user_id);
+                    intent.putExtras(bundle);
                 } else {
                     intent = new Intent(MainActivity.this, SignInActivity.class);
                 }

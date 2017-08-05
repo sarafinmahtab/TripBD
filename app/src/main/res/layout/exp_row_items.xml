@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayoutAdapter2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/my_selector"
+    android:orientation="vertical"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+
+    <TextView
+        android:id="@+id/expPlaceName"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.63"
+        android:background="@drawable/my_selector"
+        android:paddingBottom="8dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="8dp"
+        android:text="@string/place_name_item"
+        android:textColor="@color/color_selector"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</LinearLayout>
