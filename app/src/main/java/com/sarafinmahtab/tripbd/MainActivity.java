@@ -84,8 +84,8 @@ public class MainActivity extends AppCompatActivity
     String user_id, nick_name, user_type_id;
     boolean onQuery = false;
 
-    String searchQueryRequest_url = "http://10.101.2.249/TripBD/searchview_place_name_query.php";
-    String markerList_url = "http://10.101.2.249/TripBD/center_point_marker_loader.php";
+    String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
+    String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
 
 //    String searchQueryRequest_url = "http://10.100.173.234/TripBD/searchview_place_name_query.php";
 //    String markerList_url = "http://10.100.173.234/TripBD/center_point_marker_loader.php";

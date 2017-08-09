@@ -35,8 +35,8 @@ public class ProfileGuide extends AppCompatActivity {
     ArrayList<ExpPlace> exp_arraylist = new ArrayList<>();
 
     String user_id;
-    String upload_exp = "http://10.101.2.249/TripBD/upload_exp.php";
-    String exp_url = "http://10.101.2.249/TripBD/exp_places.php";
+    String upload_exp = "http://192.168.0.63/TripBD/upload_exp.php";
+    String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
 //    String[] listA = new String[]{"Lion", "Tiger", "Dog",
 //            "Cat", "Tortoise", "Rat", "Elephant", "Fox",
 //            "Cow","Donkey","Monkey"};

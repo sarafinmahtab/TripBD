@@ -42,8 +42,8 @@ public class SignInActivity extends AppCompatActivity {
 
     public static int radio_key;
 
-    String guide_login_url = "http://10.101.2.249/TripBD/login.php";
-    String guide_reg_url = "http://10.101.2.249/TripBD/register.php";
+    String guide_login_url = "http://192.168.0.63/TripBD/login.php";
+    String guide_reg_url = "http://192.168.0.63/TripBD/register.php";
 
     private AlertDialog.Builder alert_builder;
 

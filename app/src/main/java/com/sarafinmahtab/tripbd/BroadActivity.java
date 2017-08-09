@@ -54,7 +54,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     GoogleApiClient broadGoogleApiClient;
     Location broadLastLocation;
 
-    String pinPointList_url = "http://10.101.2.249/TripBD/pin_point_marker_loader.php";
+    String pinPointList_url = "http://192.168.0.63/TripBD/pin_point_marker_loader.php";
     String markerID, markerTitle;
     double latitude, longitude;
     float zoomlevel = 14;
