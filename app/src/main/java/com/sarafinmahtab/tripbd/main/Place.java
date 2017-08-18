@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd;
+package com.sarafinmahtab.tripbd.main;
 
 /**
  * Created by Arafin on 7/24/2017.

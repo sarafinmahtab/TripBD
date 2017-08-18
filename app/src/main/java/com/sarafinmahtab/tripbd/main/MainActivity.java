@@ -1,11 +1,10 @@
-package com.sarafinmahtab.tripbd;
+package com.sarafinmahtab.tripbd.main;
 
 import android.Manifest;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
@@ -25,14 +23,12 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,11 +52,17 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.sarafinmahtab.tripbd.BroadActivity;
+import com.sarafinmahtab.tripbd.DetailsActivity;
+import com.sarafinmahtab.tripbd.MainListActivity;
+import com.sarafinmahtab.tripbd.MySingleton;
+import com.sarafinmahtab.tripbd.ProfileGuide;
+import com.sarafinmahtab.tripbd.R;
+import com.sarafinmahtab.tripbd.SignInActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -124,52 +126,60 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
-/*View view=navigationView.inflateHeaderView(R.layout.nav_header_main);*/
+//        View view=navigationView.inflateHeaderView(R.layout.nav_header_main);
 
-        //Bundles
-        if(SignInActivity.isLogged_in()) {
-            Bundle bundle = getIntent().getExtras();
-
-            user_id = bundle.getString("user_id");
-            nick_name = bundle.getString("nick_name");
-            user_type_id = bundle.getString("user_type_id");
-
-            TextView username = header.findViewById(R.id.bar_user_name);
-            username.setText(nick_name);
-        }
-
-        list = (ListView) findViewById(R.id.listView);
+//        Bundles
+//        if(SignInActivity.isLogged_in()) {
+//            Bundle bundle = getIntent().getExtras();
+//
+//            user_id = bundle.getString("user_id");
+//            nick_name = bundle.getString("nick_name");
+//            user_type_id = bundle.getString("user_type_id");
+//
+//            TextView username = header.findViewById(R.id.bar_user_name);
+//            username.setText(nick_name);
+//        }
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
         searchEditText = (EditText) findViewById(R.id.search_src_text);
-//        searchEditText.setHint("Find Tour Places");
+        closeButton = (ImageView) findViewById(R.id.search_close_btn);
 
-        searchView.setOnClickListener(new View.OnClickListener() {
+        list = (ListView) findViewById(R.id.listView);
 
-            @Override
-            public void onClick(View v) {
-                searchView.setIconified(false);
-            }
-        });
+        searchView.onActionViewExpanded();
+        searchView.setIconified(false);
+        searchView.setQueryHint("Find Places for Trip");
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        if(!searchView.isFocused()) {
+            searchView.clearFocus();
+        }
+
+//        searchView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                searchView.setIconified(false);
+//            }
+//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
             @Override
             public boolean onQueryTextSubmit(String query) {
 
-                return true;
+                return false;
             }
 
             @Override
             public boolean onQueryTextChange(final String newText) {
-//                Toast.makeText(MainActivity.this, newText, Toast.LENGTH_LONG).show();
+//                Toast.makeText(rootView.getContext(), newText, Toast.LENGTH_LONG).show();
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, searchQueryRequest_url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
 //                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
-                            onQuery = true;
                             arraylist.clear();
                             int len;
 
@@ -194,8 +204,6 @@ public class MainActivity extends AppCompatActivity
 
                             // Pass results to ListViewAdapter Class
                             adapter = new SearchQueryListAdapter(MainActivity.this, arraylist);
-                            adapter.notifyDataSetChanged();
-
                             // Binds the Adapter to the ListView
                             list.setAdapter(adapter);
 
@@ -247,30 +255,22 @@ public class MainActivity extends AppCompatActivity
                     }
                 };
 
-//                adapter.filter(newText);
                 MySingleton.getMyInstance(MainActivity.this).addToRequestQueue(stringRequest);
+
                 return false;
             }
         });
 
-        closeButton = searchView.findViewById(R.id.search_close_btn);
-
-        // Set on cross button click listener
         closeButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
-                if(onQuery) {
-                    //Clear the text from EditText view
-                    searchEditText.setText("");
+                //Clear the text from EditText view
+                searchEditText.setText("");
 
-                    //Clear query
-                    searchView.setQuery("", false);
-                    adapter.notifyDataSetChanged();
-                }
-
+                //Clear query
+                searchView.setQuery("", false);
+                adapter.notifyDataSetChanged();
                 searchView.clearFocus();
-                arraylist.clear();
             }
         });
     }

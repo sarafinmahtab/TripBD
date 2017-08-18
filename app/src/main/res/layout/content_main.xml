@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.sarafinmahtab.tripbd.MainActivity"
+    tools:context="com.sarafinmahtab.tripbd.main.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <include layout="@layout/home_map"
@@ -15,20 +15,15 @@
         android:id="@+id/homeSearchView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="55dp"
         android:layout_marginRight="55dp"
         android:layout_marginTop="55dp"
         android:background="@drawable/searchview_border"
-        android:orientation="horizontal"
-        app:defaultQueryHint="Find Tour Places"
-        app:queryHint="Find Tour Places"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/include">
-
-        <requestFocus />
-    </android.support.v7.widget.SearchView>
+        app:layout_constraintTop_toTopOf="@+id/include" />
 
     <ListView
         android:id="@+id/listView"
@@ -36,9 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="@+id/homeSearchView"
         app:layout_constraintRight_toRightOf="@+id/homeSearchView"

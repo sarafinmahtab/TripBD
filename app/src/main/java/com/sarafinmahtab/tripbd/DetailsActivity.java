@@ -14,6 +14,8 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sarafinmahtab.tripbd.main.MainActivity;
+
 public class DetailsActivity extends AppCompatActivity {
 
     FloatingActionButton fab_plus, fab_home, fab_guide, fab_hotel, fab_restaurant, fab_visited, fab_review;
