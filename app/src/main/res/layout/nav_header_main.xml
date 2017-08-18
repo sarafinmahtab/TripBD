@@ -14,11 +14,10 @@
 
     <ImageView
         android:id="@+id/logo_in_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/nav_header_vertical_spacing"
-        app:srcCompat="@drawable/trip_bangladesh"
-        android:contentDescription="@null" />
+        android:layout_width="148dp"
+        android:layout_height="48dp"
+        android:contentDescription="@null"
+        android:paddingTop="@dimen/nav_header_vertical_spacing" />
 
     <TextView
         android:id="@+id/app_header"
@@ -27,12 +26,13 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:text="@string/welcome_to_tripbd"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/bar_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sign in Please" />
+        android:text="@string/sign_in_please" />
 
 </LinearLayout>

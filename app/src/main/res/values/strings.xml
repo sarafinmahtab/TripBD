@@ -22,7 +22,7 @@
     <string name="nav_share_app">Share App</string>
     <string name="nav_like_us">Like Us</string>
     <string name="nav_about_us">About Us</string>
-    <string name="welcome_to_tripbd">Welcome to TripBD</string>
+    <string name="welcome_to_tripbd">Welcome to Trip BD</string>
     <string name="sign_in">Sign In</string>
     <string name="tour_guide">Tour Guide</string>
     <string name="sign_in_here">Sign In Here</string>
@@ -31,4 +31,12 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="username_reg_hint">Username</string>
+    <string name="nickname_reg_hint">Nickname</string>
+    <string name="e_mail_reg_hint">E-mail</string>
+    <string name="password_reg_hint">Password</string>
+    <string name="confirm_password_reg_hint">Confirm Password</string>
+    <string name="reg_btn_string">Register</string>
+    <string name="contact_number_reg_hint">Contact Number</string>
+    <string name="sign_in_please">Sign in Please</string>
 </resources>

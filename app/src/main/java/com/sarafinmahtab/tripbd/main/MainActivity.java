@@ -129,16 +129,19 @@ public class MainActivity extends AppCompatActivity
 //        View view=navigationView.inflateHeaderView(R.layout.nav_header_main);
 
 //        Bundles
-//        if(SignInActivity.isLogged_in()) {
-//            Bundle bundle = getIntent().getExtras();
-//
-//            user_id = bundle.getString("user_id");
-//            nick_name = bundle.getString("nick_name");
-//            user_type_id = bundle.getString("user_type_id");
-//
-//            TextView username = header.findViewById(R.id.bar_user_name);
-//            username.setText(nick_name);
-//        }
+
+        if(SignInActivity.isLogged_in()) {
+            Bundle bundle = getIntent().getExtras();
+
+            user_id = bundle.getString("user_id");
+            nick_name = bundle.getString("nick_name");
+            user_type_id = bundle.getString("user_type_id");
+
+            Toast.makeText(MainActivity.this, "Welcome " + nick_name, Toast.LENGTH_LONG).show();
+
+            TextView username = header.findViewById(R.id.bar_user_name);
+            username.setText(nick_name);
+        }
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
         searchEditText = (EditText) findViewById(R.id.search_src_text);
@@ -626,7 +629,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            moveTaskToBack(true);
         }
     }
 
