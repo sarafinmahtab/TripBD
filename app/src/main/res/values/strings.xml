@@ -39,4 +39,6 @@
     <string name="reg_btn_string">Register</string>
     <string name="contact_number_reg_hint">Contact Number</string>
     <string name="sign_in_please">Sign in Please</string>
+    <string name="title_activity_guide">GuideActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 </resources>

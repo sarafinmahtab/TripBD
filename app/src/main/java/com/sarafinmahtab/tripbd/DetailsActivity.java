@@ -137,7 +137,7 @@ public class DetailsActivity extends AppCompatActivity {
         fab_guide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(DetailsActivity.this, GuideActivity.class);
+                Intent intent = new Intent(DetailsActivity.this, GuideListActivity.class);
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }

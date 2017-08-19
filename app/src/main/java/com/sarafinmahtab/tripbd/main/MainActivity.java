@@ -56,9 +56,9 @@ import com.sarafinmahtab.tripbd.BroadActivity;
 import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.MainListActivity;
 import com.sarafinmahtab.tripbd.MySingleton;
-import com.sarafinmahtab.tripbd.ProfileGuide;
 import com.sarafinmahtab.tripbd.R;
 import com.sarafinmahtab.tripbd.SignInActivity;
+import com.sarafinmahtab.tripbd.guide_profile.GuideActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -643,7 +643,7 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_sign_in:
                 Intent intent;
                 if(SignInActivity.isLogged_in()) {
-                    intent = new Intent(MainActivity.this, ProfileGuide.class);
+                    intent = new Intent(MainActivity.this, GuideActivity.class);
 
                     Bundle bundle = new Bundle();
                     bundle.putString("user_id", user_id);
