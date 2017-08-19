@@ -37,10 +37,6 @@ import java.util.List;
 public class GuideActivity extends AppCompatActivity {
 
     String user_id;
-    String upload_exp = "http://192.168.0.63/TripBD/upload_exp.php";
-    String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
-
-    private List<GuideExpListItem> expPlaceList;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -63,8 +59,8 @@ public class GuideActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.guide_tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-//        expPlaceList = new ArrayList<>();
-//        updateGuideExpListDataFromDataBase();
+        Bundle bundle = getIntent().getExtras();
+        user_id = bundle.getString("user_id");
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
@@ -103,46 +99,5 @@ public class GuideActivity extends AppCompatActivity {
             }
             return null;
         }
-    }
-
-    private void updateGuideExpListDataFromDataBase() {
-        StringRequest stringRequestExpList = new StringRequest(Request.Method.POST, exp_url, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject jsonObject = new JSONObject(response);
-                    JSONArray jsonArray = jsonObject.getJSONArray("exp_place_query_list");
-
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject obj = jsonArray.getJSONObject(i);
-
-                        GuideExpListItem courseItem = new GuideExpListItem(
-                                obj.getString("pin_point_id"),
-                                obj.getString("pin_point_name"),
-                                obj.getString("centre_point_name"),
-                                obj.getString("details_link")
-                        );
-
-                        expPlaceList.add(courseItem);
-                    }
-
-                } catch (JSONException e) {
-                    Toast.makeText(GuideActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(GuideActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                error.printStackTrace();
-            }
-        });
-
-        MySingleton.getMyInstance(GuideActivity.this).addToRequestQueue(stringRequestExpList);
-    }
-
-    public List<GuideExpListItem> getExpPlaceList() {
-        return expPlaceList;
     }
 }

@@ -1,6 +1,8 @@
 package com.sarafinmahtab.tripbd.guide_profile;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,10 +12,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Arafin on 8/19/2017.
@@ -21,14 +35,18 @@ import java.util.List;
 
 public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapter.GuideExpListViewHolder> {
 
+    String guideID;
+    String upload_exp_url = "http://192.168.0.63/TripBD/upload_exp.php";
+
     List<GuideExpListItem> guideExpList;
     Context context;
 
     private ArrayList<GuideExpListItem> newGuideExpList;
 
-    public GuideExpListAdapter(List<GuideExpListItem> guideExpList, Context context) {
+    public GuideExpListAdapter(List<GuideExpListItem> guideExpList, Context context, String guideID) {
         this.guideExpList = guideExpList;
         this.context = context;
+        this.guideID = guideID;
 
         newGuideExpList = new ArrayList<>();
         newGuideExpList.addAll(this.guideExpList);
@@ -50,8 +68,53 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
 
         holder.imageViewExpItemAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceID()) + " Added", Toast.LENGTH_LONG).show();
+            public void onClick(final View view) {
+//                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceID()) + " Added", Toast.LENGTH_LONG).show();
+
+                StringRequest stringRequestforPlaceExpAdd = new StringRequest(Request.Method.POST, upload_exp_url, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(response);
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            String data_report = jsonObject.getString("data_report");
+
+                            switch (data_report) {
+                                case "success":
+                                    Toast.makeText(context,
+                                            "You've listed as Expert Guide for " + guideExpListItem.getGuideExpPlaceName(),
+                                            Toast.LENGTH_LONG).show();
+                                    break;
+                                case "failed":
+                                    Toast.makeText(context,
+                                            "Insertion failed!! Please try again.",
+                                            Toast.LENGTH_LONG).show();
+                                    break;
+                            }
+                        } catch (JSONException e) {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                        error.printStackTrace();
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() throws AuthFailureError {
+                        Map<String, String> params = new HashMap<>();
+
+                        params.put("exp_place_id", guideExpListItem.getGuideExpPlaceID());
+                        params.put("exp_user_id", guideID);
+
+                        return params;
+                    }
+                };
+
+                MySingleton.getMyInstance(context).addToRequestQueue(stringRequestforPlaceExpAdd);
             }
         });
 

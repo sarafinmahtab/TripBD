@@ -37,8 +37,9 @@ public class UpdateGuideExpList extends Fragment {
     RecyclerView guideExpListRecyclerView;
 //    GuideExpListAdapter guideExpListAdapter;
     List<GuideExpListItem> guideExpList;
-
     GuideExpListAdapter guideExpListAdapter;
+
+    GuideActivity guideActivity;
 
     String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
 
@@ -47,6 +48,8 @@ public class UpdateGuideExpList extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View rootView = inflater.inflate(R.layout.fragment_update_guide_exp_list, container, false);
+
+        guideActivity = (GuideActivity) getActivity();
 
         guideExpListSsearchView = rootView.findViewById(R.id.frag_searchView_place_exp);
         guideExpListSearchEditText = rootView.findViewById(R.id.search_src_text);
@@ -82,7 +85,7 @@ public class UpdateGuideExpList extends Fragment {
                         guideExpList.add(courseItem);
                     }
 
-                    guideExpListAdapter = new GuideExpListAdapter(guideExpList, rootView.getContext());
+                    guideExpListAdapter = new GuideExpListAdapter(guideExpList, rootView.getContext(), guideActivity.user_id);
                     guideExpListRecyclerView.setAdapter(guideExpListAdapter);
 
                 } catch (JSONException e) {
