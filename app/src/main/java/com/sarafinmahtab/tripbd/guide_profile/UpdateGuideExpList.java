@@ -102,7 +102,7 @@ public class UpdateGuideExpList extends Fragment {
 
         guideExpListSsearchView.onActionViewExpanded();
         guideExpListSsearchView.setIconifiedByDefault(false);
-        guideExpListSsearchView.setQueryHint("Find Places You're Expert in Guiding");
+        guideExpListSsearchView.setQueryHint("Select Where You're Expert");
 
         if(!guideExpListSsearchView.isFocused()) {
             guideExpListSsearchView.clearFocus();

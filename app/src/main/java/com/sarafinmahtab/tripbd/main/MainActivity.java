@@ -13,6 +13,8 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.View;
@@ -66,6 +68,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
@@ -76,15 +79,15 @@ public class MainActivity extends AppCompatActivity
     GoogleApiClient mGoogleApiClient;
     Location mLastLocation;
 
-    ListView list;
+    RecyclerView recyclerView;
     SearchQueryListAdapter adapter;
+    List<Place> arraylist;
+
     SearchView searchView;
     ImageView closeButton;
     EditText searchEditText;
-    ArrayList<Place> arraylist = new ArrayList<>();
 
     String user_id, nick_name, user_type_id;
-    boolean onQuery = false;
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
     String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
@@ -147,7 +150,11 @@ public class MainActivity extends AppCompatActivity
         searchEditText = (EditText) findViewById(R.id.search_src_text);
         closeButton = (ImageView) findViewById(R.id.search_close_btn);
 
-        list = (ListView) findViewById(R.id.listView);
+        recyclerView = (RecyclerView) findViewById(R.id.listView);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        arraylist = new ArrayList<>();
 
         searchView.onActionViewExpanded();
         searchView.setIconified(false);
@@ -205,26 +212,8 @@ public class MainActivity extends AppCompatActivity
                                 arraylist.add(placeObj);
                             }
 
-                            // Pass results to ListViewAdapter Class
                             adapter = new SearchQueryListAdapter(MainActivity.this, arraylist);
-                            // Binds the Adapter to the ListView
-                            list.setAdapter(adapter);
-
-                            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                                @Override
-                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                                    Place placeObj = adapter.getItem(i);
-
-//                                    adapter.notifyDataSetChanged();
-                                    Intent intent = new Intent(MainActivity.this, DetailsActivity.class);
-
-                                    Bundle bundle = new Bundle();
-                                    bundle.putString("details_link", placeObj.getDetailsLink());
-                                    intent.putExtras(bundle);
-
-                                    startActivity(intent);
-                                }
-                            });
+                            recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
 //                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();

@@ -46,8 +46,7 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
     public void onBindViewHolder(GuideExpListViewHolder holder, int position) {
         final GuideExpListItem guideExpListItem = newGuideExpList.get(position);
 
-        holder.textViewExpItemTitle.setText(guideExpListItem.getGuideExpPlaceName()
-                + ", " + guideExpListItem.getGuideExpPlaceCentre());
+        holder.textViewExpItemTitle.setText(guideExpListItem.getGuideExpItemName());
 
         holder.imageViewExpItemAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,7 +58,7 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
         holder.linearLayoutExpItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceID()), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceDetailLink()), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -94,9 +93,9 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
         for(i = 0; i < guideExpList.size(); i++)
         {
 
-            for(j = 0; j < guideExpList.get(i).getGuideExpPlaceName().length(); j++)
+            for(j = 0; j < guideExpList.get(i).getGuideExpItemName().length(); j++)
             {
-                if(j+query.length() > guideExpList.get(i).getGuideExpPlaceName().length()) {
+                if(j+query.length() > guideExpList.get(i).getGuideExpItemName().length()) {
                     break;
                 }
 
@@ -104,7 +103,7 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
 
                 for(m = 0; m < query.length(); m++)
                 {
-                    if(query.charAt(m) != guideExpList.get(i).getGuideExpPlaceName().toLowerCase().charAt(j+m)) {
+                    if(query.charAt(m) != guideExpList.get(i).getGuideExpItemName().toLowerCase().charAt(j+m)) {
                         ck = false;
                     }
                 }

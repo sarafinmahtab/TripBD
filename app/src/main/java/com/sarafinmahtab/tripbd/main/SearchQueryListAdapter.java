@@ -1,71 +1,78 @@
 package com.sarafinmahtab.tripbd.main;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Arafin on 7/24/2017.
  */
 
-class SearchQueryListAdapter extends BaseAdapter {
+public class SearchQueryListAdapter extends RecyclerView.Adapter<SearchQueryListAdapter.SearchQueryViewHolder> {
 
     private Context context;
-    private LayoutInflater inflater;
-    private List<Place> placeList = null;
-    private ArrayList<Place> placeArraylist;
+    private List<Place> placeList;
 
     SearchQueryListAdapter(Context context, List<Place> placeList) {
         this.context = context;
         this.placeList = placeList;
-
-        inflater = LayoutInflater.from(context);
-
-        this.placeArraylist = new ArrayList<>();
-        this.placeArraylist.addAll(placeList);
-    }
-
-    public class ViewHolder {
-        TextView placeName;
     }
 
     @Override
-    public int getCount() {
+    public SearchQueryViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.search_query_row_items, parent, false);
+
+        return new SearchQueryViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(SearchQueryViewHolder holder, int position) {
+        final Place place = placeList.get(position);
+
+        holder.textViewPlaceName.setText(place.getPinPointName());
+
+        holder.linearLayoutAdapter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, DetailsActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("place_id", place.getPinPointID());
+                bundle.putString("details_link", place.getDetailsLink());
+                intent.putExtras(bundle);
+
+                context.startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
         return placeList.size();
     }
 
-    @Override
-    public Place getItem(int position) {
-        return placeList.get(position);
-    }
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+    public static class SearchQueryViewHolder extends RecyclerView.ViewHolder {
 
-    public View getView(final int position, View view, ViewGroup parent) {
-        final ViewHolder holder;
-        if (view == null) {
-            holder = new ViewHolder();
-            view = inflater.inflate(R.layout.search_query_row_items, null);
+        TextView textViewPlaceName;
+        LinearLayout linearLayoutAdapter;
 
-            // Locate the TextViews in search_query_row_items.xml
-            holder.placeName = view.findViewById(R.id.place_name);
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
+        public SearchQueryViewHolder(View itemView) {
+            super(itemView);
+
+            textViewPlaceName = itemView.findViewById(R.id.place_name);
+            linearLayoutAdapter = itemView.findViewById(R.id.linearLayoutAdapter);
         }
-        // Set the results into TextViews
-        holder.placeName.setText(String.valueOf(placeList.get(position).getPinPointName()));
-        return view;
     }
 }

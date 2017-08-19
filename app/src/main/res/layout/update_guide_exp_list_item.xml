@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="horizontal"
+    android:id="@+id/exp_list_linear"
+    android:padding="8dp"
+    android:background="@drawable/my_selector"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp" >
 
-    <LinearLayout
-        android:id="@+id/exp_list_linear"
+    <TextView
+        android:id="@+id/exp_place_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp">
+        android:layout_marginTop="4dp"
+        android:layout_weight="1"
+        android:text="Bangladesh"
+        android:textColor="@color/text_selector"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/exp_place_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="National Museum"
-            android:textColor="@color/text_selector"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+    <ImageButton
+        android:id="@+id/add_exp_place_btn"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/icon_selector_oval"
+        android:scaleType="fitCenter"
+        app:srcCompat="@drawable/ic_exp_place_add"
+        android:contentDescription="@null" />
 
-        <ImageButton
-            android:id="@+id/add_exp_place_btn"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:background="@android:color/transparent"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/ic_add_place_exp" />
-
-    </LinearLayout>
 </LinearLayout>
