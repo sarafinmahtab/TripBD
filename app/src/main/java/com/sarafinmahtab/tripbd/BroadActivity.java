@@ -171,11 +171,19 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
 
                         LatLng latLng = new LatLng(Double.parseDouble(obj.getString("latitude")),
                                 Double.parseDouble(obj.getString("longitude")));
+                        String makeAddition;
+
+                        if(obj.getString("details_link").equals("")) {
+                            makeAddition = obj.getString("pin_point_id");
+                        } else {
+                            makeAddition = obj.getString("pin_point_id") + " " + obj.getString("details_link");
+                        }
+
                         googleMap
                                 .addMarker(new MarkerOptions().position(latLng)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_red_pin))
                                         .title(obj.getString("pin_point_name") + " (" + obj.getString("pp_bangla_name") + ")")
-                                ).setTag(obj.getString("pin_point_id") + " " + obj.getString("details_link"));
+                                ).setTag(makeAddition);
 
                         final Marker[] lastOpenned = {null};
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -261,11 +269,24 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
         broadGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                String part1, part2;
                 String myStrProblem = String.valueOf(marker.getTag());
+                boolean blank_link = false;
 
-                String[] parts = myStrProblem.split(" ");
-                String part1 = parts[0]; // id
-                String part2 = parts[1]; // link
+                for (int i = 0; i < myStrProblem.length(); i++) {
+                    if (myStrProblem.charAt(i) >= '0' && myStrProblem.charAt(i) <= '9') {
+                        blank_link = true;
+                    }
+                }
+
+                if(blank_link) {
+                    String[] parts = myStrProblem.split(" ");
+                    part1 = parts[0]; // id
+                    part2 = parts[1]; // link
+                } else {
+                    part1 = myStrProblem; // id
+                    part2 = ""; // link
+                }
 
                 Intent intent = new Intent(BroadActivity.this, DetailsActivity.class);
 
