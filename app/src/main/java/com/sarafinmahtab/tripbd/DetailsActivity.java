@@ -14,7 +14,16 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.sarafinmahtab.tripbd.guide_list_for_hire.GuideListActivity;
 import com.sarafinmahtab.tripbd.main.MainActivity;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
@@ -24,14 +33,16 @@ public class DetailsActivity extends AppCompatActivity {
 
     boolean isOpen = false;
 
+    String pinPointID, url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fab_layout_details);
 
         Bundle bundle = getIntent().getExtras();
-
-        String url = bundle.getString("details_link");
+        pinPointID = bundle.getString("pin_point_id");
+        url = bundle.getString("details_link");
 
         WebView webView = (WebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
@@ -138,6 +149,11 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailsActivity.this, GuideListActivity.class);
+
+                Bundle bundle1 = new Bundle();
+                bundle1.putString("pin_point_id", pinPointID);
+                intent.putExtras(bundle1);
+
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }

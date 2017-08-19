@@ -5,8 +5,7 @@
         android:id="@+id/mySwitch"
         android:title="@string/view_in_list"
         app:showAsAction="ifRoom"
-        app:actionLayout="@layout/switch_layout"
-        />
+        app:actionLayout="@layout/switch_layout" />
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"

@@ -36,7 +36,7 @@ import java.util.List;
 
 public class GuideActivity extends AppCompatActivity {
 
-    String user_id;
+    String user_id, user_name;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -46,8 +46,16 @@ public class GuideActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guide);
 
+        Bundle bundle = getIntent().getExtras();
+        user_id = bundle.getString("user_id");
+        user_name = bundle.getString("user_name");
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.guide_toolbar);
         setSupportActionBar(toolbar);
+
+        toolbar.setTitleTextColor(0xFFFFFFFF);
+        getSupportActionBar().setTitle(user_name + " Profile");
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -58,9 +66,6 @@ public class GuideActivity extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.guide_tabs);
         tabLayout.setupWithViewPager(mViewPager);
-
-        Bundle bundle = getIntent().getExtras();
-        user_id = bundle.getString("user_id");
     }
 
     public class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -175,7 +175,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
                                 .addMarker(new MarkerOptions().position(latLng)
                                         .icon(BitmapDescriptorFactory.fromResource(R.drawable.map_red_pin))
                                         .title(obj.getString("pin_point_name") + " (" + obj.getString("pp_bangla_name") + ")")
-                                ).setTag(obj.getString("details_link"));
+                                ).setTag(obj.getString("pin_point_id") + " " + obj.getString("details_link"));
 
                         final Marker[] lastOpenned = {null};
                         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -261,10 +261,17 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
         broadGoogleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
             @Override
             public void onInfoWindowClick(Marker marker) {
+                String myStrProblem = String.valueOf(marker.getTag());
+
+                String[] parts = myStrProblem.split(" ");
+                String part1 = parts[0]; // id
+                String part2 = parts[1]; // link
+
                 Intent intent = new Intent(BroadActivity.this, DetailsActivity.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("details_link", String.valueOf(marker.getTag()));
+                bundle.putString("pin_point_id", part1);
+                bundle.putString("details_link", part2);
                 intent.putExtras(bundle);
 
                 startActivity(intent);

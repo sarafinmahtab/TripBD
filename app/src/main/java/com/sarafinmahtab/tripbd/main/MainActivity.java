@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
     ImageView closeButton;
     EditText searchEditText;
 
-    String user_id, nick_name, user_type_id;
+    String user_id, user_name, nick_name, user_type_id;
 
     String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
     String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
@@ -137,6 +137,7 @@ public class MainActivity extends AppCompatActivity
             Bundle bundle = getIntent().getExtras();
 
             user_id = bundle.getString("user_id");
+            user_name = bundle.getString("user_name");
             nick_name = bundle.getString("nick_name");
             user_type_id = bundle.getString("user_type_id");
 
@@ -635,6 +636,7 @@ public class MainActivity extends AppCompatActivity
                     intent = new Intent(MainActivity.this, GuideActivity.class);
 
                     Bundle bundle = new Bundle();
+                    bundle.putString("user_name", user_name);
                     bundle.putString("user_id", user_id);
                     intent.putExtras(bundle);
                 } else {
