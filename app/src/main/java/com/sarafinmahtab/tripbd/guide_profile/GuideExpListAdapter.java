@@ -1,8 +1,10 @@
 package com.sarafinmahtab.tripbd.guide_profile;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.design.widget.Snackbar;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
 
@@ -36,12 +39,15 @@ import java.util.Map;
 public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapter.GuideExpListViewHolder> {
 
     String guideID;
-    String upload_exp_url = "http://192.168.0.63/TripBD/upload_exp.php";
+//    String upload_exp_url = "http://192.168.0.63/TripBD/upload_exp.php";
+    String upload_exp_url = "http://192.168.43.65/TripBD/upload_exp.php";
 
     List<GuideExpListItem> guideExpList;
     Context context;
 
     private ArrayList<GuideExpListItem> newGuideExpList;
+
+    private AlertDialog.Builder builder;
 
     public GuideExpListAdapter(List<GuideExpListItem> guideExpList, Context context, String guideID) {
         this.guideExpList = guideExpList;
@@ -61,7 +67,7 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
     }
 
     @Override
-    public void onBindViewHolder(GuideExpListViewHolder holder, int position) {
+    public void onBindViewHolder(final GuideExpListViewHolder holder, int position) {
         final GuideExpListItem guideExpListItem = newGuideExpList.get(position);
 
         holder.textViewExpItemTitle.setText(guideExpListItem.getGuideExpItemName());
@@ -74,32 +80,39 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
                 StringRequest stringRequestforPlaceExpAdd = new StringRequest(Request.Method.POST, upload_exp_url, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        builder = new AlertDialog.Builder(context);
+
                         try {
                             JSONArray jsonArray = new JSONArray(response);
                             JSONObject jsonObject = jsonArray.getJSONObject(0);
                             String data_report = jsonObject.getString("data_report");
 
                             switch (data_report) {
+                                case "exist":
+                                    builder.setTitle("Apply Failed");
+                                    display_alert("You're already listed as a guide for " + guideExpListItem.getGuideExpPlaceName());
+                                    break;
                                 case "success":
-                                    Toast.makeText(context,
-                                            "You've listed as Expert Guide for " + guideExpListItem.getGuideExpPlaceName(),
-                                            Toast.LENGTH_LONG).show();
+                                    holder.imageViewExpItemAdd.setImageResource(0);
+                                    holder.imageViewExpItemAdd.setImageResource(R.drawable.ic_exp_choice_confirm_btn);
+
+                                    Toast.makeText(context, "You're Are Successfully Listed to Hire!!", Toast.LENGTH_LONG).show();
+
                                     break;
                                 case "failed":
-                                    Toast.makeText(context,
-                                            "Insertion failed!! Please try again.",
-                                            Toast.LENGTH_LONG).show();
+                                    builder.setTitle("Apply Failed");
+                                    display_alert("Insertion failed!! Please try again.");
                                     break;
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                            display_alert(response);
                             e.printStackTrace();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(context, error.getMessage(), Toast.LENGTH_LONG).show();
+                        display_alert(error.getMessage());
                         error.printStackTrace();
                     }
                 }) {
@@ -121,7 +134,16 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
         holder.linearLayoutExpItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceDetailLink()), Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(context, DetailsActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("pin_point_id", guideExpListItem.getGuideExpPlaceID());
+                bundle.putString("details_link", guideExpListItem.getGuideExpPlaceDetailLink());
+
+                intent.putExtras(bundle);
+
+                context.startActivity(intent);
             }
         });
     }
@@ -179,5 +201,17 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
         }
 
         notifyDataSetChanged();
+    }
+
+    public void display_alert(String message) {
+        builder.setMessage(message);
+        builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }

@@ -44,8 +44,11 @@ public class SignInActivity extends AppCompatActivity {
     private AlertDialog.Builder error_builder;
     private int radio_key = 0;
 
-    String guide_login_url = "http://192.168.0.63/TripBD/login.php";
-    String guide_reg_url = "http://192.168.0.63/TripBD/register.php";
+//    String guide_login_url = "http://192.168.0.63/TripBD/login.php";
+//    String guide_reg_url = "http://192.168.0.63/TripBD/register.php";
+
+    String guide_login_url = "http://192.168.43.65/TripBD/login.php";
+    String guide_reg_url = "http://192.168.43.65/TripBD/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

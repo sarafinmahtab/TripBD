@@ -5,31 +5,31 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:id="@+id/exp_list_linear"
+    android:id="@+id/guide_list_linear"
     android:padding="8dp"
     android:background="@drawable/my_selector"
     tools:layout_editor_absoluteX="0dp"
     tools:layout_editor_absoluteY="81dp" >
 
     <TextView
-        android:id="@+id/exp_place_title"
+        android:id="@+id/guide_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:layout_weight="1"
-        android:text="Bangladesh"
+        android:text="Shamsul Arafin"
         android:textColor="@color/text_selector"
         android:textSize="18sp"
         android:textStyle="bold" />
 
     <ImageButton
-        android:id="@+id/add_exp_place_btn"
+        android:id="@+id/guide_call_btn"
         android:layout_width="80dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/icon_selector_oval"
+        android:contentDescription="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_exp_choice_add_btn"
-        android:contentDescription="@null" />
+        app:srcCompat="@android:drawable/sym_action_call" />
 
 </LinearLayout>

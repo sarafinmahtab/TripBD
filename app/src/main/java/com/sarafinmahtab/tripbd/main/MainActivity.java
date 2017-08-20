@@ -89,11 +89,11 @@ public class MainActivity extends AppCompatActivity
 
     String user_id, user_name, nick_name, user_type_id;
 
-    String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
-    String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
+//    String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
+//    String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
 
-//    String searchQueryRequest_url = "http://10.100.173.234/TripBD/searchview_place_name_query.php";
-//    String markerList_url = "http://10.100.173.234/TripBD/center_point_marker_loader.php";
+    String searchQueryRequest_url = "http://192.168.43.65/TripBD/searchview_place_name_query.php";
+    String markerList_url = "http://192.168.43.65/TripBD/center_point_marker_loader.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

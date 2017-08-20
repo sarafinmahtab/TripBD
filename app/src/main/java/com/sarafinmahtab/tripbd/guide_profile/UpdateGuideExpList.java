@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -26,7 +27,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class UpdateGuideExpList extends Fragment {
 
@@ -41,7 +44,9 @@ public class UpdateGuideExpList extends Fragment {
 
     GuideActivity guideActivity;
 
-    String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
+//    String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
+    String exp_url = "http://192.168.43.65/TripBD/exp_places.php";
+    String tourGuideID;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,6 +55,7 @@ public class UpdateGuideExpList extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_update_guide_exp_list, container, false);
 
         guideActivity = (GuideActivity) getActivity();
+        tourGuideID = guideActivity.user_id;
 
         guideExpListSsearchView = rootView.findViewById(R.id.frag_searchView_place_exp);
         guideExpListSearchEditText = rootView.findViewById(R.id.search_src_text);
@@ -99,7 +105,16 @@ public class UpdateGuideExpList extends Fragment {
                 Toast.makeText(rootView.getContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 error.printStackTrace();
             }
-        });
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new HashMap<>();
+
+                params.put("tour_guide_id", tourGuideID);
+
+                return params;
+            }
+        };
 
         MySingleton.getMyInstance(rootView.getContext()).addToRequestQueue(stringRequestExpList);
 
