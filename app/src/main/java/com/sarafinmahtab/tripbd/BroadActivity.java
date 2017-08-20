@@ -271,21 +271,22 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
             public void onInfoWindowClick(Marker marker) {
                 String part1, part2;
                 String myStrProblem = String.valueOf(marker.getTag());
-                boolean blank_link = false;
+                boolean blank_link = true;
 
                 for (int i = 0; i < myStrProblem.length(); i++) {
-                    if (myStrProblem.charAt(i) >= '0' && myStrProblem.charAt(i) <= '9') {
-                        blank_link = true;
+                    if (!(myStrProblem.charAt(i) >= '0' && myStrProblem.charAt(i) <= '9')) {
+                        blank_link = false;
+                        break;
                     }
                 }
 
                 if(blank_link) {
+                    part1 = myStrProblem; // id
+                    part2 = ""; // link
+                } else {
                     String[] parts = myStrProblem.split(" ");
                     part1 = parts[0]; // id
                     part2 = parts[1]; // link
-                } else {
-                    part1 = myStrProblem; // id
-                    part2 = ""; // link
                 }
 
                 Intent intent = new Intent(BroadActivity.this, DetailsActivity.class);
