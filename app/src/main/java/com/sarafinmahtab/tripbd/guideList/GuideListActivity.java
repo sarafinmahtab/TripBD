@@ -94,7 +94,7 @@ public class GuideListActivity extends AppCompatActivity {
                     guideListAdapter = new GuideListAdapter(guideDataList, GuideListActivity.this);
                     recyclerView.setAdapter(guideListAdapter);
                 } catch (JSONException e) {
-                    Toast.makeText(GuideListActivity.this, response, Toast.LENGTH_LONG).show();
+                    Toast.makeText(GuideListActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }
             }

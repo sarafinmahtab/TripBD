@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/exp_list_linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/exp_list_linear"
-    android:padding="8dp"
+    android:layout_margin="8dp"
     android:background="@drawable/my_selector"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp" >
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/exp_place_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_weight="1"
         android:text="Bangladesh"
         android:textColor="@color/text_selector"
@@ -28,8 +29,8 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:background="@drawable/icon_selector_oval"
+        android:contentDescription="@null"
         android:scaleType="fitCenter"
-        app:srcCompat="@drawable/ic_exp_choice_add_btn"
-        android:contentDescription="@null" />
+        app:srcCompat="@drawable/ic_exp_choice_add_btn" />
 
 </LinearLayout>

@@ -75,6 +75,8 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
 
         holder.textViewExpItemTitle.setText(guideExpListItem.getGuideExpItemName());
 
+        holder.imageViewExpItemAdd.setImageResource(0);
+        holder.imageViewExpItemAdd.setImageResource(guideExpListItem.getConfirmImageID());
         holder.imageViewExpItemAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {
@@ -96,8 +98,9 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
                                     display_alert("You're already listed as a guide for " + guideExpListItem.getGuideExpPlaceName());
                                     break;
                                 case "success":
+                                    guideExpListItem.setConfirmImageID(R.drawable.ic_exp_choice_confirm_btn);
                                     holder.imageViewExpItemAdd.setImageResource(0);
-                                    holder.imageViewExpItemAdd.setImageResource(R.drawable.ic_exp_choice_confirm_btn);
+                                    holder.imageViewExpItemAdd.setImageResource(guideExpListItem.getConfirmImageID());
 
                                     Toast.makeText(context, "You're Are Successfully Listed to Hire!!", Toast.LENGTH_LONG).show();
 

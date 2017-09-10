@@ -2,22 +2,23 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/guide_list_linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:id="@+id/guide_list_linear"
-    android:padding="8dp"
+    android:layout_margin="8dp"
     android:background="@drawable/my_selector"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:padding="8dp"
     tools:layout_editor_absoluteX="0dp"
-    tools:layout_editor_absoluteY="81dp" >
+    tools:layout_editor_absoluteY="81dp">
 
     <TextView
         android:id="@+id/guide_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
         android:layout_weight="1"
-        android:text="Shamsul Arafin"
+        android:text="Shamsul Arafin Mahtab"
         android:textColor="@color/text_selector"
         android:textSize="18sp"
         android:textStyle="bold" />

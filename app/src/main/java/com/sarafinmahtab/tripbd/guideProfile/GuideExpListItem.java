@@ -1,5 +1,10 @@
 package com.sarafinmahtab.tripbd.guideProfile;
 
+import android.widget.ImageButton;
+import android.widget.ImageView;
+
+import com.sarafinmahtab.tripbd.R;
+
 /**
  * Created by Arafin on 8/19/2017.
  */
@@ -7,6 +12,7 @@ package com.sarafinmahtab.tripbd.guideProfile;
 public class GuideExpListItem {
 
     private String guideExpPlaceID, guideExpPlaceName, guideExpPlaceCentre, guideExpPlaceDetailLink, guideExpItemName;
+    private int confirmImageID;
 
     public GuideExpListItem(String guideExpPlaceID, String guideExpPlaceName, String guideExpPlaceCentre, String guideExpPlaceDetailLink) {
         this.guideExpPlaceID = guideExpPlaceID;
@@ -14,10 +20,10 @@ public class GuideExpListItem {
         this.guideExpPlaceCentre = guideExpPlaceCentre;
         this.guideExpPlaceDetailLink = guideExpPlaceDetailLink;
         guideExpItemName = guideExpPlaceName + ", " + guideExpPlaceCentre;
+        confirmImageID = R.drawable.ic_exp_choice_add_btn;
     }
 
     //SETTERS
-
     public void setGuideExpPlaceID(String guideExpPlaceID) {
         this.guideExpPlaceID = guideExpPlaceID;
     }
@@ -36,6 +42,10 @@ public class GuideExpListItem {
 
     public void setGuideExpItemName(String guideExpItemName) {
         this.guideExpItemName = guideExpItemName;
+    }
+
+    public void setConfirmImageID(int confirmImageID) {
+        this.confirmImageID = confirmImageID;
     }
 
     //GETTERS
@@ -57,5 +67,9 @@ public class GuideExpListItem {
 
     public String getGuideExpItemName() {
         return guideExpItemName;
+    }
+
+    public int getConfirmImageID() {
+        return confirmImageID;
     }
 }
