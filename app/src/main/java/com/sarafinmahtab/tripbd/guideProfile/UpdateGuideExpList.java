@@ -1,7 +1,5 @@
-package com.sarafinmahtab.tripbd.guide_profile;
+package com.sarafinmahtab.tripbd.guideProfile;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
+import com.sarafinmahtab.tripbd.ServerAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,19 +32,19 @@ import java.util.Map;
 
 public class UpdateGuideExpList extends Fragment {
 
+    String expUrl = ServerAddress.getMyServerAddress().concat("exp_places.php");
+//    String expUrl = "http://192.168.0.63/TripBD/exp_places.php";
+
     SearchView guideExpListSsearchView;
     EditText guideExpListSearchEditText;
     ImageView guideExpListCloseButton;
 
     RecyclerView guideExpListRecyclerView;
-//    GuideExpListAdapter guideExpListAdapter;
     List<GuideExpListItem> guideExpList;
     GuideExpListAdapter guideExpListAdapter;
 
     GuideActivity guideActivity;
 
-//    String exp_url = "http://192.168.0.63/TripBD/exp_places.php";
-    String exp_url = "http://192.168.43.65/TripBD/exp_places.php";
     String tourGuideID;
 
     @Override
@@ -55,7 +54,7 @@ public class UpdateGuideExpList extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_update_guide_exp_list, container, false);
 
         guideActivity = (GuideActivity) getActivity();
-        tourGuideID = guideActivity.user_id;
+        tourGuideID = guideActivity.userID;
 
         guideExpListSsearchView = rootView.findViewById(R.id.frag_searchView_place_exp);
         guideExpListSearchEditText = rootView.findViewById(R.id.search_src_text);
@@ -71,7 +70,7 @@ public class UpdateGuideExpList extends Fragment {
 //        GuideActivity guideActivity = (GuideActivity) getActivity();
 //        guideExpList = guideActivity.getExpPlaceList();
 
-        StringRequest stringRequestExpList = new StringRequest(Request.Method.POST, exp_url, new Response.Listener<String>() {
+        StringRequest stringRequestExpList = new StringRequest(Request.Method.POST, expUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -81,17 +80,17 @@ public class UpdateGuideExpList extends Fragment {
                     for (int i = 0; i < jsonArray.length(); i++) {
                         JSONObject obj = jsonArray.getJSONObject(i);
 
-                        GuideExpListItem courseItem = new GuideExpListItem(
+                        GuideExpListItem guideExpListItem = new GuideExpListItem(
                                 obj.getString("pin_point_id"),
                                 obj.getString("pin_point_name"),
                                 obj.getString("centre_point_name"),
                                 obj.getString("details_link")
                         );
 
-                        guideExpList.add(courseItem);
+                        guideExpList.add(guideExpListItem);
                     }
 
-                    guideExpListAdapter = new GuideExpListAdapter(guideExpList, rootView.getContext(), guideActivity.user_id);
+                    guideExpListAdapter = new GuideExpListAdapter(guideExpList, rootView.getContext(), guideActivity.userID);
                     guideExpListRecyclerView.setAdapter(guideExpListAdapter);
 
                 } catch (JSONException e) {

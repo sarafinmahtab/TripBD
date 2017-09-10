@@ -26,11 +26,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,12 +53,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.sarafinmahtab.tripbd.BroadActivity;
-import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.MainListActivity;
 import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
+import com.sarafinmahtab.tripbd.ServerAddress;
 import com.sarafinmahtab.tripbd.SignInActivity;
-import com.sarafinmahtab.tripbd.guide_profile.GuideActivity;
+import com.sarafinmahtab.tripbd.guideProfile.GuideActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +72,12 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    String searchQueryRequestUrl = ServerAddress.getMyServerAddress().concat("searchview_place_name_query.php");
+    String markerListUrl = ServerAddress.getMyServerAddress().concat("center_point_marker_loader.php");
+
+//    String searchQueryRequestUrl = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
+//    String markerListUrl = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
+
     GoogleMap homeGoogleMap;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -81,19 +85,13 @@ public class MainActivity extends AppCompatActivity
 
     RecyclerView recyclerView;
     SearchQueryListAdapter adapter;
-    List<Place> arraylist;
+    List<Place> arrayList;
 
     SearchView searchView;
     ImageView closeButton;
     EditText searchEditText;
 
-    String user_id, user_name, nick_name, user_type_id;
-
-//    String searchQueryRequest_url = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
-//    String markerList_url = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
-
-    String searchQueryRequest_url = "http://192.168.43.65/TripBD/searchview_place_name_query.php";
-    String markerList_url = "http://192.168.43.65/TripBD/center_point_marker_loader.php";
+    String userID, userName, nickName, userTypeID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,18 +131,18 @@ public class MainActivity extends AppCompatActivity
 
 //        Bundles
 
-        if(SignInActivity.isLogged_in()) {
+        if(SignInActivity.isLoggedIn()) {
             Bundle bundle = getIntent().getExtras();
 
-            user_id = bundle.getString("user_id");
-            user_name = bundle.getString("user_name");
-            nick_name = bundle.getString("nick_name");
-            user_type_id = bundle.getString("user_type_id");
+            userID = bundle.getString("user_id");
+            userName = bundle.getString("user_name");
+            nickName = bundle.getString("nick_name");
+            userTypeID = bundle.getString("user_type_id");
 
-            Toast.makeText(MainActivity.this, "Welcome " + nick_name, Toast.LENGTH_LONG).show();
+            Toast.makeText(MainActivity.this, "Welcome " + nickName, Toast.LENGTH_LONG).show();
 
             TextView username = header.findViewById(R.id.bar_user_name);
-            username.setText(nick_name);
+            username.setText(nickName);
         }
 
         searchView = (SearchView) findViewById(R.id.homeSearchView);
@@ -155,7 +153,7 @@ public class MainActivity extends AppCompatActivity
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        arraylist = new ArrayList<>();
+        arrayList = new ArrayList<>();
 
         searchView.onActionViewExpanded();
         searchView.setIconified(false);
@@ -186,12 +184,12 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextChange(final String newText) {
 //                Toast.makeText(rootView.getContext(), newText, Toast.LENGTH_LONG).show();
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, searchQueryRequest_url, new Response.Listener<String>() {
+                StringRequest stringRequest = new StringRequest(Request.Method.POST, searchQueryRequestUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
 //                            Toast.makeText(MainActivity.this, response, Toast.LENGTH_LONG).show();
-                            arraylist.clear();
+                            arrayList.clear();
                             int len;
 
                             JSONObject jsonObject = new JSONObject(response);
@@ -210,10 +208,10 @@ public class MainActivity extends AppCompatActivity
                                         obj.getString("details_link"), obj.getString("centre_point_id"), obj.getString("lat_long_id"));
 
                                 // Binds all strings into an array
-                                arraylist.add(placeObj);
+                                arrayList.add(placeObj);
                             }
 
-                            adapter = new SearchQueryListAdapter(MainActivity.this, arraylist);
+                            adapter = new SearchQueryListAdapter(MainActivity.this, arrayList);
                             recyclerView.setAdapter(adapter);
                         } catch (JSONException e) {
 //                            Toast.makeText(MainActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -232,7 +230,7 @@ public class MainActivity extends AppCompatActivity
                         Map<String, String> params = new HashMap<>();
 
                         if(newText.equals("")) {
-                            arraylist.clear();
+                            arrayList.clear();
                             params.put("query_text_change", "DhakaChittagongSylhet");
                             return params;
 //                            runOnUiThread(new Runnable() {
@@ -291,9 +289,7 @@ public class MainActivity extends AppCompatActivity
 
         //Initialize Google Play Services
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission.ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 //Location Permission already granted
                 buildGoogleApiClient();
                 homeGoogleMap.setMyLocationEnabled(true);
@@ -362,7 +358,7 @@ public class MainActivity extends AppCompatActivity
 
     private void addMarker(final GoogleMap googleMap) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, markerList_url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, markerListUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -632,12 +628,12 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_sign_in:
                 Intent intent;
-                if(SignInActivity.isLogged_in()) {
+                if(SignInActivity.isLoggedIn()) {
                     intent = new Intent(MainActivity.this, GuideActivity.class);
 
                     Bundle bundle = new Bundle();
-                    bundle.putString("user_name", user_name);
-                    bundle.putString("user_id", user_id);
+                    bundle.putString("user_name", userName);
+                    bundle.putString("user_id", userID);
                     intent.putExtras(bundle);
                 } else {
                     intent = new Intent(MainActivity.this, SignInActivity.class);

@@ -14,20 +14,12 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.sarafinmahtab.tripbd.guide_list_for_hire.GuideListActivity;
+import com.sarafinmahtab.tripbd.guideList.GuideListActivity;
 import com.sarafinmahtab.tripbd.main.MainActivity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class DetailsActivity extends AppCompatActivity {
 
-    FloatingActionButton fab_plus, fab_home, fab_guide, fab_hotel, fab_restaurant, fab_visited, fab_review;
+    FloatingActionButton fabPlus, fabHome, fabGuide, fabHotel, fabRestaurant, fabVisited, fabReview;
     TextView home, guide, hotel, restaurant, visited, review;
     Animation FabOpen, FabClose, FabClockwise, FabAntiClockwise;
 
@@ -43,6 +35,7 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         pinPointID = bundle.getString("pin_point_id");
         url = bundle.getString("details_link");
+        url = ServerAddress.getMyServerAddress().concat(url);
 
         WebView webView = (WebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
@@ -53,16 +46,16 @@ public class DetailsActivity extends AppCompatActivity {
         settings.setLoadWithOverviewMode(true);
         settings.setSupportMultipleWindows(true);
         webView.loadUrl(url);
-        webView.setWebViewClient(new MyBrouser());
+        webView.setWebViewClient(new MyBrowser());
         ///  onConfigurationChanged();
 
-        fab_plus= (FloatingActionButton)findViewById(R.id.fab_plus);
-        fab_home= (FloatingActionButton)findViewById(R.id.fab_home);
-        fab_guide= (FloatingActionButton)findViewById(R.id.fab_guide);
-        fab_hotel= (FloatingActionButton)findViewById(R.id.fab_hotel);
-        fab_restaurant= (FloatingActionButton)findViewById(R.id.fab_restaurant);
-        fab_visited= (FloatingActionButton)findViewById(R.id.fab_visited);
-        fab_review= (FloatingActionButton)findViewById(R.id.fab_review);
+        fabPlus = (FloatingActionButton)findViewById(R.id.fab_plus);
+        fabHome = (FloatingActionButton)findViewById(R.id.fab_home);
+        fabGuide = (FloatingActionButton)findViewById(R.id.fab_guide);
+        fabHotel = (FloatingActionButton)findViewById(R.id.fab_hotel);
+        fabRestaurant = (FloatingActionButton)findViewById(R.id.fab_restaurant);
+        fabVisited = (FloatingActionButton)findViewById(R.id.fab_visited);
+        fabReview = (FloatingActionButton)findViewById(R.id.fab_review);
 
         home= (TextView)findViewById(R.id.home);
         guide= (TextView)findViewById(R.id.guide);
@@ -76,24 +69,24 @@ public class DetailsActivity extends AppCompatActivity {
         FabClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_clockwise);
         FabAntiClockwise = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.rotate_anticlockwise);
 
-        fab_plus.setOnClickListener(new View.OnClickListener(){
+        fabPlus.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View view) {
                 if(isOpen){
-                    fab_home.startAnimation(FabClose);
-                    fab_guide.startAnimation(FabClose);
-                    fab_hotel.startAnimation(FabClose);
-                    fab_restaurant.startAnimation(FabClose);
-                    fab_visited.startAnimation(FabClose);
-                    fab_review.startAnimation(FabClose);
-                    fab_plus.startAnimation(FabAntiClockwise);
-                    fab_home.setClickable(false);
-                    fab_guide.setClickable(false);
-                    fab_hotel.setClickable(false);
-                    fab_restaurant.setClickable(false);
-                    fab_visited.setClickable(false);
-                    fab_review.setClickable(false);
+                    fabHome.startAnimation(FabClose);
+                    fabGuide.startAnimation(FabClose);
+                    fabHotel.startAnimation(FabClose);
+                    fabRestaurant.startAnimation(FabClose);
+                    fabVisited.startAnimation(FabClose);
+                    fabReview.startAnimation(FabClose);
+                    fabPlus.startAnimation(FabAntiClockwise);
+                    fabHome.setClickable(false);
+                    fabGuide.setClickable(false);
+                    fabHotel.setClickable(false);
+                    fabRestaurant.setClickable(false);
+                    fabVisited.setClickable(false);
+                    fabReview.setClickable(false);
                     home.setText("");
                     home.setBackgroundColor(Color.TRANSPARENT);
                     guide.setText("");
@@ -108,36 +101,37 @@ public class DetailsActivity extends AppCompatActivity {
                     review.setBackgroundColor(Color.TRANSPARENT);
                     isOpen = false;
                 }else{
-                    fab_home.startAnimation(FabOpen);
-                    fab_guide.startAnimation(FabOpen);
-                    fab_hotel.startAnimation(FabOpen);
-                    fab_restaurant.startAnimation(FabOpen);
-                    fab_visited.startAnimation(FabOpen);
-                    fab_review.startAnimation(FabOpen);
-                    fab_plus.startAnimation(FabClockwise);
-                    fab_home.setClickable(true);
-                    fab_guide.setClickable(true);
-                    fab_hotel.setClickable(true);
-                    fab_restaurant.setClickable(true);
-                    fab_visited.setClickable(true);
-                    fab_review.setClickable(true);
-                    home.setText("Home");
+                    fabHome.startAnimation(FabOpen);
+                    fabGuide.startAnimation(FabOpen);
+                    fabHotel.startAnimation(FabOpen);
+                    fabRestaurant.startAnimation(FabOpen);
+                    fabVisited.startAnimation(FabOpen);
+                    fabReview.startAnimation(FabOpen);
+                    fabPlus.startAnimation(FabClockwise);
+                    fabHome.setClickable(true);
+                    fabGuide.setClickable(true);
+                    fabHotel.setClickable(true);
+                    fabRestaurant.setClickable(true);
+                    fabVisited.setClickable(true);
+                    fabReview.setClickable(true);
+                    home.setText(R.string.home);
                     home.setBackgroundColor(Color.rgb(79, 74, 84));
-                    guide.setText("Hire a Guide");
+                    guide.setText(R.string.hire_guide);
                     guide.setBackgroundColor(Color.rgb(79, 74, 84));
-                    hotel.setText("Hotels");
+                    hotel.setText(R.string.hotels);
                     hotel.setBackgroundColor(Color.rgb(79, 74, 84));
-                    restaurant.setText("Restaurants");
+                    restaurant.setText(R.string.restuarants);
                     restaurant.setBackgroundColor(Color.rgb(79, 74, 84));
-                    visited.setText("Visited");
+                    visited.setText(R.string.visited_check);
                     visited.setBackgroundColor(Color.rgb(79, 74, 84));
-                    review.setText("Review");
+                    review.setText(R.string.review);
                     review.setBackgroundColor(Color.rgb(79, 74, 84));
                     isOpen = true;
                 }
             }
         });
-        fab_home.setOnClickListener(new View.OnClickListener() {
+
+        fabHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailsActivity.this, MainActivity.class);
@@ -145,38 +139,43 @@ public class DetailsActivity extends AppCompatActivity {
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-        fab_guide.setOnClickListener(new View.OnClickListener() {
+
+        fabGuide.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(DetailsActivity.this, GuideListActivity.class);
 
-                Bundle bundle1 = new Bundle();
-                bundle1.putString("pin_point_id", pinPointID);
-                intent.putExtras(bundle1);
+                Bundle bundlePinPoint = new Bundle();
+                bundlePinPoint.putString("pin_point_id", pinPointID);
+                intent.putExtras(bundlePinPoint);
 
                 startActivity(intent);
                 overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
             }
         });
-        fab_hotel.setOnClickListener(new View.OnClickListener() {
+
+        fabHotel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailsActivity.this, "Hotel", Toast.LENGTH_SHORT).show();
             }
         });
-        fab_restaurant.setOnClickListener(new View.OnClickListener() {
+
+        fabRestaurant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailsActivity.this, "Restaurant", Toast.LENGTH_SHORT).show();
             }
         });
-        fab_visited.setOnClickListener(new View.OnClickListener() {
+
+        fabVisited.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailsActivity.this, "Visited", Toast.LENGTH_SHORT).show();
             }
         });
-        fab_review.setOnClickListener(new View.OnClickListener() {
+
+        fabReview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(DetailsActivity.this, "Review", Toast.LENGTH_SHORT).show();
@@ -184,7 +183,7 @@ public class DetailsActivity extends AppCompatActivity {
         });
     }
 
-    private class MyBrouser extends WebViewClient {
+    private class MyBrowser extends WebViewClient {
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);

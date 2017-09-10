@@ -1,8 +1,6 @@
-package com.sarafinmahtab.tripbd.guide_profile;
+package com.sarafinmahtab.tripbd.guideProfile;
 
 import android.support.design.widget.TabLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -11,32 +9,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class GuideActivity extends AppCompatActivity {
 
-    String user_id, user_name;
+    String userID, userName;
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
@@ -47,14 +25,14 @@ public class GuideActivity extends AppCompatActivity {
         setContentView(R.layout.activity_guide);
 
         Bundle bundle = getIntent().getExtras();
-        user_id = bundle.getString("user_id");
-        user_name = bundle.getString("user_name");
+        userID = bundle.getString("user_id");
+        userName = bundle.getString("user_name");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.guide_toolbar);
         setSupportActionBar(toolbar);
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
-        getSupportActionBar().setTitle(user_name + " Profile");
+        getSupportActionBar().setTitle(userName + " Profile");
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.

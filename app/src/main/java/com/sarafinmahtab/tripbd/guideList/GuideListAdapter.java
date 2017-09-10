@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd.guide_list_for_hire;
+package com.sarafinmahtab.tripbd.guideList;
 
 import android.content.Context;
 import android.content.Intent;

@@ -41,4 +41,10 @@
     <string name="sign_in_please">Sign in Please</string>
     <string name="title_activity_guide">GuideActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="home">Home</string>
+    <string name="hire_guide">Hire a Guide</string>
+    <string name="hotels">Hotels nearby</string>
+    <string name="restuarants">Restaurants nearby</string>
+    <string name="visited_check">Set Visited</string>
+    <string name="review">Review</string>
 </resources>

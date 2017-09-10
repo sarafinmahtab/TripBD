@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd.guide_list_for_hire;
+package com.sarafinmahtab.tripbd.guideList;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,9 +16,9 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
+import com.sarafinmahtab.tripbd.ServerAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,8 +31,10 @@ import java.util.Map;
 
 public class GuideListActivity extends AppCompatActivity {
 
+    String guideListUrl = ServerAddress.getMyServerAddress().concat("guide_list_for_hire.php");
+//    String guideListUrl = "http://192.168.43.65/TripBD/guide_list_for_hire.php";
+
     String pinPointID;
-    String guideListUrl = "http://192.168.43.65/TripBD/guide_list_for_hire.php";
 
     SearchView searchView;
     EditText searchEditText;

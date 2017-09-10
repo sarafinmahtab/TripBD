@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd.guide_profile;
+package com.sarafinmahtab.tripbd.guideProfile;
 
 /**
  * Created by Arafin on 8/19/2017.
@@ -6,7 +6,7 @@ package com.sarafinmahtab.tripbd.guide_profile;
 
 public class GuideExpListItem {
 
-    String guideExpPlaceID, guideExpPlaceName, guideExpPlaceCentre, guideExpPlaceDetailLink, guideExpItemName;
+    private String guideExpPlaceID, guideExpPlaceName, guideExpPlaceCentre, guideExpPlaceDetailLink, guideExpItemName;
 
     public GuideExpListItem(String guideExpPlaceID, String guideExpPlaceName, String guideExpPlaceCentre, String guideExpPlaceDetailLink) {
         this.guideExpPlaceID = guideExpPlaceID;
@@ -16,6 +16,29 @@ public class GuideExpListItem {
         guideExpItemName = guideExpPlaceName + ", " + guideExpPlaceCentre;
     }
 
+    //SETTERS
+
+    public void setGuideExpPlaceID(String guideExpPlaceID) {
+        this.guideExpPlaceID = guideExpPlaceID;
+    }
+
+    public void setGuideExpPlaceName(String guideExpPlaceName) {
+        this.guideExpPlaceName = guideExpPlaceName;
+    }
+
+    public void setGuideExpPlaceCentre(String guideExpPlaceCentre) {
+        this.guideExpPlaceCentre = guideExpPlaceCentre;
+    }
+
+    public void setGuideExpPlaceDetailLink(String guideExpPlaceDetailLink) {
+        this.guideExpPlaceDetailLink = guideExpPlaceDetailLink;
+    }
+
+    public void setGuideExpItemName(String guideExpItemName) {
+        this.guideExpItemName = guideExpItemName;
+    }
+
+    //GETTERS
     public String getGuideExpPlaceID() {
         return guideExpPlaceID;
     }

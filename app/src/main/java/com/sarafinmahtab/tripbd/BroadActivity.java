@@ -54,12 +54,12 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     GoogleApiClient broadGoogleApiClient;
     Location broadLastLocation;
 
-//    String pinPointList_url = "http://192.168.0.63/TripBD/pin_point_marker_loader.php";
-    String pinPointList_url = "http://192.168.43.65/TripBD/pin_point_marker_loader.php";
+    String pinPointListUrl = ServerAddress.getMyServerAddress().concat("pin_point_marker_loader.php");
+//    String pinPointListUrl = "http://192.168.0.63/TripBD/pin_point_marker_loader.php";
 
     String markerID, markerTitle;
     double latitude, longitude;
-    float zoomlevel = 14;
+    float zoomLevel = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +120,7 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         broadGoogleMap = googleMap;
 
-        goToMapLocation(latitude, longitude, zoomlevel);
+        goToMapLocation(latitude, longitude, zoomLevel);
 
 //        homeGoogleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
@@ -155,13 +155,13 @@ public class BroadActivity extends AppCompatActivity implements OnMapReadyCallba
 
     private void goToMapLocation(double lat, double lng, float zoom) {
         LatLng ll = new LatLng(lat, lng);
-        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, 14);
+        CameraUpdate update = CameraUpdateFactory.newLatLngZoom(ll, zoom);
         broadGoogleMap.animateCamera(update);
     }
 
     private void addMarker(final GoogleMap googleMap) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, pinPointList_url, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, pinPointListUrl, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {

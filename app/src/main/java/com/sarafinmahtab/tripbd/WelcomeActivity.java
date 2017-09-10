@@ -12,6 +12,7 @@ import com.sarafinmahtab.tripbd.main.MainActivity;
 public class WelcomeActivity extends AppCompatActivity {
 
     ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,7 +23,7 @@ public class WelcomeActivity extends AppCompatActivity {
 //        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.welcome_animation);
 //        imageView.setAnimation(animation);
 
-        int SPLASH_TIME_OUT = 3000;
+        int SPLASH_TIME_OUT = 2000;
         new Handler().postDelayed(
                 new Runnable() {
                     @Override

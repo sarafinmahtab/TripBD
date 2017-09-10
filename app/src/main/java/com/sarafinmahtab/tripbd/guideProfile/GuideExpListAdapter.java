@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd.guide_profile;
+package com.sarafinmahtab.tripbd.guideProfile;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -22,6 +22,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.sarafinmahtab.tripbd.DetailsActivity;
 import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
+import com.sarafinmahtab.tripbd.ServerAddress;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,12 +39,14 @@ import java.util.Map;
 
 public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapter.GuideExpListViewHolder> {
 
-    String guideID;
-//    String upload_exp_url = "http://192.168.0.63/TripBD/upload_exp.php";
-    String upload_exp_url = "http://192.168.43.65/TripBD/upload_exp.php";
+    private String uploadExpUrl = ServerAddress.getMyServerAddress().concat("upload_exp.php");
 
-    List<GuideExpListItem> guideExpList;
-    Context context;
+//    private String uploadExpUrl = "http://192.168.0.63/TripBD/upload_exp.php";
+
+    private String guideID;
+
+    private List<GuideExpListItem> guideExpList;
+    private Context context;
 
     private ArrayList<GuideExpListItem> newGuideExpList;
 
@@ -77,7 +80,7 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
             public void onClick(final View view) {
 //                Toast.makeText(context, String.valueOf(guideExpListItem.getGuideExpPlaceID()) + " Added", Toast.LENGTH_LONG).show();
 
-                StringRequest stringRequestforPlaceExpAdd = new StringRequest(Request.Method.POST, upload_exp_url, new Response.Listener<String>() {
+                StringRequest stringRequestforPlaceExpAdd = new StringRequest(Request.Method.POST, uploadExpUrl, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         builder = new AlertDialog.Builder(context);

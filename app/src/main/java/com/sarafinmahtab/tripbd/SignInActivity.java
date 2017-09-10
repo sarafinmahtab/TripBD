@@ -30,13 +30,13 @@ import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
-    static boolean logged_in = false;
+    static boolean loggedIn = false;
 
     EditText Username, Password;
     EditText user_name, nick_name, email, contact_num, pass_word, confirm_pass;
 
-    Button sign_in_btn, register_btn;
-    Button register_frst;
+    Button signInBtn, registerBtn;
+    Button registerFrst;
 
     RadioGroup radioGroup;
     RadioButton radioButton;
@@ -44,11 +44,11 @@ public class SignInActivity extends AppCompatActivity {
     private AlertDialog.Builder error_builder;
     private int radio_key = 0;
 
-//    String guide_login_url = "http://192.168.0.63/TripBD/login.php";
-//    String guide_reg_url = "http://192.168.0.63/TripBD/register.php";
+    String guideLoginUrl = ServerAddress.getMyServerAddress().concat("login.php");
+    String guideRegUrl = ServerAddress.getMyServerAddress().concat("register.php");
 
-    String guide_login_url = "http://192.168.43.65/TripBD/login.php";
-    String guide_reg_url = "http://192.168.43.65/TripBD/register.php";
+//    String guideLoginUrl = "http://192.168.0.63/TripBD/login.php";
+//    String guideRegUrl = "http://192.168.0.63/TripBD/register.php";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +79,9 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void OnSignInButtonClick() {
-        sign_in_btn = (Button) findViewById(R.id.sign_in_btn);
+        signInBtn = (Button) findViewById(R.id.sign_in_btn);
 
-        sign_in_btn.setOnClickListener(new View.OnClickListener() {
+        signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Username = (EditText) findViewById(R.id.username_entry);
@@ -99,7 +99,7 @@ public class SignInActivity extends AppCompatActivity {
                         builder_create("Travller's Profile", "Still working on it!!");
                     } else if (radio_key == 2) {
 
-                        StringRequest loginStringRequest = new StringRequest(Request.Method.POST, guide_login_url, new Response.Listener<String>() {
+                        StringRequest loginStringRequest = new StringRequest(Request.Method.POST, guideLoginUrl, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
 
@@ -113,7 +113,7 @@ public class SignInActivity extends AppCompatActivity {
                                             builder_create(code, jsonObject.getString("message"));
                                             break;
                                         case "login_success":
-                                            logged_in = true;
+                                            loggedIn = true;
 
                                             Bundle bundle = new Bundle();
                                             bundle.putString("user_id", jsonObject.getString("user_id"));
@@ -163,9 +163,9 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void onRegisterButtonClick() {
-        register_btn = (Button) findViewById(R.id.register_btn);
+        registerBtn = (Button) findViewById(R.id.register_btn);
 
-        register_btn.setOnClickListener(new View.OnClickListener() {
+        registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final AlertDialog.Builder reg_dialog_builder = new AlertDialog.Builder(SignInActivity.this);
@@ -183,7 +183,7 @@ public class SignInActivity extends AppCompatActivity {
                 contact_num = customView.findViewById(R.id.phone_reg);
                 pass_word = customView.findViewById(R.id.password_entry_reg);
                 confirm_pass = customView.findViewById(R.id.confirm_pass_reg);
-                register_frst = customView.findViewById(R.id.reg_dialog_btn);
+                registerFrst = customView.findViewById(R.id.reg_dialog_btn);
 
                 reg_dialog_builder.setView(customView)
                         .setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -195,7 +195,7 @@ public class SignInActivity extends AppCompatActivity {
                 alert.setTitle("Complete Registration");
                 alert.show();
 
-                register_frst.setOnClickListener(new View.OnClickListener() {
+                registerFrst.setOnClickListener(new View.OnClickListener() {
                                                      @Override
                                                      public void onClick(View view) {
                                                          error_builder = new AlertDialog.Builder(SignInActivity.this);
@@ -205,7 +205,7 @@ public class SignInActivity extends AppCompatActivity {
                                                          } else if(!pass_word.getText().toString().equals(confirm_pass.getText().toString())) {
                                                              builder_create("Invalid Login", "Password didn't matched!!");
                                                          } else {
-                                                             StringRequest regStringRequest = new StringRequest(Request.Method.POST, guide_reg_url, new Response.Listener<String>() {
+                                                             StringRequest regStringRequest = new StringRequest(Request.Method.POST, guideRegUrl, new Response.Listener<String>() {
                                                                  @Override
                                                                  public void onResponse(String response) {
                                                                      try {
@@ -276,7 +276,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public static boolean isLogged_in() {
-        return logged_in;
+    public static boolean isLoggedIn() {
+        return loggedIn;
     }
 }

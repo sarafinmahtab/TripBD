@@ -1,4 +1,4 @@
-package com.sarafinmahtab.tripbd.guide_list_for_hire;
+package com.sarafinmahtab.tripbd.guideList;
 
 /**
  * Created by Arafin on 8/20/2017.
@@ -6,7 +6,7 @@ package com.sarafinmahtab.tripbd.guide_list_for_hire;
 
 public class GuideData {
 
-    String guideID, guideNickName, guideMobile, guideEmail;
+    private String guideID, guideNickName, guideMobile, guideEmail;
 
     public GuideData(String guideID, String guideNickName, String guideMobile, String guideEmail) {
         this.guideID = guideID;
@@ -15,6 +15,25 @@ public class GuideData {
         this.guideEmail = guideEmail;
     }
 
+    //SETTERS
+    public void setGuideID(String guideID) {
+        this.guideID = guideID;
+    }
+
+    public void setGuideNickName(String guideNickName) {
+        this.guideNickName = guideNickName;
+    }
+
+    public void setGuideMobile(String guideMobile) {
+        this.guideMobile = guideMobile;
+    }
+
+    public void setGuideEmail(String guideEmail) {
+        this.guideEmail = guideEmail;
+    }
+
+
+    //GETTERS
     public String getGuideID() {
         return guideID;
     }

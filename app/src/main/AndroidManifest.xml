@@ -65,11 +65,11 @@
         <activity android:name=".SignInActivity" />
         <activity android:name=".DetailsActivity" />
         <activity
-            android:name=".guide_list_for_hire.GuideListActivity"
+            android:name=".guideList.GuideListActivity"
             android:label="List of Guides To Hire"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".guide_profile.GuideActivity"
+            android:name=".guideProfile.GuideActivity"
             android:label="@string/title_activity_guide"
             android:theme="@style/AppTheme.NoActionBar" />
     </application>
