@@ -24,9 +24,9 @@
     <string name="welcome_to_tripbd">Welcome to Trip BD</string>
     <string name="sign_in">Sign In</string>
     <string name="tour_guide">Tour Guide</string>
-    <string name="sign_in_here">Sign In Here</string>
+    <string name="sign_in_header">Check Who you are?</string>
     <string name="username_hint">Username</string>
-    <string name="paasword_hint">Paasword</string>
+    <string name="password_hint">Password</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -46,4 +46,7 @@
     <string name="restuarants">Restaurants nearby</string>
     <string name="visited_check">Set Visited</string>
     <string name="review">Review</string>
+    <string name="traveller">Traveller</string>
+    <string name="create_an_account">Create An Account</string>
+    <string name="fill_up_all_fields">Fill Up All Fields</string>
 </resources>

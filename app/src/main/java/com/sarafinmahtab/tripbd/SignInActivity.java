@@ -1,16 +1,20 @@
 package com.sarafinmahtab.tripbd;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.IdRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -37,10 +41,8 @@ public class SignInActivity extends AppCompatActivity {
     static boolean loggedIn = false;
 
     EditText Username, Password;
-    EditText user_name, nick_name, email, contact_num, pass_word, confirm_pass;
 
     Button signInBtn, registerBtn;
-    Button registerFrst;
 
     RadioGroup radioGroup;
     RadioButton radioButton;
@@ -80,14 +82,15 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void OnSignInButtonClick() {
+
+        Username = (EditText) findViewById(R.id.username_entry);
+        Password = (EditText) findViewById(R.id.password_entry);
+
         signInBtn = (Button) findViewById(R.id.sign_in_btn);
 
         signInBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Username = (EditText) findViewById(R.id.username_entry);
-                Password = (EditText) findViewById(R.id.password_entry);
-
                 error_builder = new AlertDialog.Builder(SignInActivity.this);
 
                 final String username = Username.getText().toString();
@@ -96,10 +99,7 @@ public class SignInActivity extends AppCompatActivity {
                 if(username.equals("") || password.equals("")) {
                     builder_create("Invalid Login!!", "Please fill up the all the fields.");
                 } else {
-                    if (radio_key == 1) {
-                        builder_create("Travller's Profile", "Still working on it!!");
-                    } else if (radio_key == 2) {
-
+                    if (radio_key == 1 || radio_key == 2) {
                         StringRequest loginStringRequest = new StringRequest(Request.Method.POST, guideLoginUrl, new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
@@ -155,7 +155,7 @@ public class SignInActivity extends AppCompatActivity {
                         };
 
                         MySingleton.getMyInstance(SignInActivity.this).addToRequestQueue(loginStringRequest);
-                    } else if(radio_key == 0) {
+                    } else {
                         builder_create("Invalid Login!!", "Please select an alias!!");
                     }
                 }
@@ -164,110 +164,137 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     private void onRegisterButtonClick() {
+
         registerBtn = (Button) findViewById(R.id.register_btn);
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final AlertDialog.Builder reg_dialog_builder = new AlertDialog.Builder(SignInActivity.this);
+                error_builder = new AlertDialog.Builder(SignInActivity.this);
 
-//                        LayoutInflater inflater = MainActivity.this.getLayoutInflater();
+                if(radio_key == 1 || radio_key == 2) {
+                    final View customView = LayoutInflater.from(SignInActivity.this).inflate(R.layout.reg_dialog_layout, null);
 
-                LayoutInflater inflater = LayoutInflater.from(SignInActivity.this);
-                final View customView;
+                    final int width = ViewGroup.LayoutParams.MATCH_PARENT, height = ViewGroup.LayoutParams.WRAP_CONTENT;
+                    final Dialog bottomSheetDialog = new Dialog(SignInActivity.this, R.style.MaterialDialogSheet);
+                    bottomSheetDialog.setContentView(customView);
+                    bottomSheetDialog.setCancelable(false);
 
-                customView = inflater.inflate(R.layout.reg_dialog_layout, null);
+                    if(bottomSheetDialog.getWindow() != null) {
+                        bottomSheetDialog.getWindow().setLayout(width, height);
+                        bottomSheetDialog.getWindow().setGravity(Gravity.BOTTOM);
+                        bottomSheetDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                        bottomSheetDialog.show ();
+                    }
 
-                user_name = customView.findViewById(R.id.user_name_reg);
-                nick_name = customView.findViewById(R.id.nick_name_reg);
-                email = customView.findViewById(R.id.email_reg);
-                contact_num = customView.findViewById(R.id.phone_reg);
-                pass_word = customView.findViewById(R.id.password_entry_reg);
-                confirm_pass = customView.findViewById(R.id.confirm_pass_reg);
-                registerFrst = customView.findViewById(R.id.reg_dialog_btn);
+                    final EditText user_name = customView.findViewById(R.id.user_name_reg);
+                    final EditText nick_name = customView.findViewById(R.id.nick_name_reg);
+                    final EditText email = customView.findViewById(R.id.email_reg);
+                    final EditText contact_num = customView.findViewById(R.id.phone_reg);
+                    final EditText pass_word = customView.findViewById(R.id.password_entry_reg);
+                    final EditText confirm_pass = customView.findViewById(R.id.confirm_pass_reg);
+                    final Button registerFrst = customView.findViewById(R.id.reg_dialog_btn);
+                    final ImageButton closeRegBtn = customView.findViewById(R.id.close_reg_sheet);
 
-                reg_dialog_builder.setView(customView)
-                        .setNegativeButton("Close", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                final AlertDialog alert = reg_dialog_builder.create();
-                alert.setTitle("Complete Registration");
-                alert.show();
+                    registerFrst.setOnClickListener(new View.OnClickListener() {
+                                                        @Override
+                                                        public void onClick(View view) {
+                                                            if(user_name.getText().toString().equals("") || nick_name.getText().toString().equals("") || email.getText().toString().equals("")) {
+                                                                builder_create("Invalid Login!!", "Blank Data can't be updated!!");
+                                                            } else if(!pass_word.getText().toString().equals(confirm_pass.getText().toString())) {
+                                                                builder_create("Invalid Login", "Password didn't matched!!");
+                                                            } else {
+                                                                StringRequest regStringRequest = new StringRequest(Request.Method.POST, guideRegUrl, new Response.Listener<String>() {
+                                                                    @Override
+                                                                    public void onResponse(String response) {
+                                                                        try {
+                                                                            JSONArray jsonArray = new JSONArray(response);
+                                                                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                                                                            String code = jsonObject.getString("code");
 
-                registerFrst.setOnClickListener(new View.OnClickListener() {
-                                                     @Override
-                                                     public void onClick(View view) {
-                                                         error_builder = new AlertDialog.Builder(SignInActivity.this);
+                                                                            switch(code) {
+                                                                                case "reg_failed":
+                                                                                    builder_create("Registration Failed", jsonObject.getString("message"));
+                                                                                case "reg_success":
+                                                                                    builder_create("Registration Success", jsonObject.getString("message"));
+                                                                                    bottomSheetDialog.cancel();
+                                                                            }
+                                                                        } catch (JSONException e) {
+                                                                            Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
+                                                                            e.printStackTrace();
+                                                                        }
+                                                                    }
+                                                                }, new Response.ErrorListener() {
+                                                                    @Override
+                                                                    public void onErrorResponse(VolleyError error) {
+                                                                        Toast.makeText(SignInActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
+                                                                        error.printStackTrace();
+                                                                    }
+                                                                }) {
+                                                                    @Override
+                                                                    protected Map<String, String> getParams() throws AuthFailureError {
 
-                                                         if(user_name.getText().toString().equals("") || nick_name.getText().toString().equals("") || email.getText().toString().equals("")) {
-                                                             builder_create("Invalid Login!!", "Blank Data can't be updated!!");
-                                                         } else if(!pass_word.getText().toString().equals(confirm_pass.getText().toString())) {
-                                                             builder_create("Invalid Login", "Password didn't matched!!");
-                                                         } else {
-                                                             StringRequest regStringRequest = new StringRequest(Request.Method.POST, guideRegUrl, new Response.Listener<String>() {
-                                                                 @Override
-                                                                 public void onResponse(String response) {
-                                                                     try {
-                                                                         JSONArray jsonArray = new JSONArray(response);
-                                                                         JSONObject jsonObject = jsonArray.getJSONObject(0);
-                                                                         String code = jsonObject.getString("code");
+                                                                        Map<String, String> params = new HashMap<>();
 
-                                                                         switch(code) {
-                                                                             case "reg_failed":
-                                                                                 builder_create("Registration Failed", jsonObject.getString("message"));
-                                                                                 alert.cancel();
-                                                                             case "reg_success":
-                                                                                 builder_create("Registration Success", jsonObject.getString("message"));
-                                                                                 alert.cancel();
-                                                                         }
-                                                                     } catch (JSONException e) {
-                                                                         Toast.makeText(SignInActivity.this, response, Toast.LENGTH_LONG).show();
-                                                                         e.printStackTrace();
-                                                                     }
-                                                                 }
-                                                             }, new Response.ErrorListener() {
-                                                                 @Override
-                                                                 public void onErrorResponse(VolleyError error) {
-                                                                     Toast.makeText(SignInActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
-                                                                     error.printStackTrace();
-                                                                 }
-                                                             }) {
-                                                                 @Override
-                                                                 protected Map<String, String> getParams() throws AuthFailureError {
+                                                                        params.put("radio_key", String.valueOf(radio_key+1));
+                                                                        params.put("user_name", user_name.getText().toString());
+                                                                        params.put("nick_name", nick_name.getText().toString());
+                                                                        params.put("email", email.getText().toString());
+                                                                        params.put("contact_num", contact_num.getText().toString());
+                                                                        params.put("pass_word", pass_word.getText().toString());
 
-                                                                     Map<String, String> params = new HashMap<>();
+                                                                        return params;
+                                                                    }
+                                                                };
 
-                                                                     params.put("radio_key", String.valueOf(radio_key+1));
-                                                                     params.put("user_name", user_name.getText().toString());
-                                                                     params.put("nick_name", nick_name.getText().toString());
-                                                                     params.put("email", email.getText().toString());
-                                                                     params.put("contact_num", contact_num.getText().toString());
-                                                                     params.put("pass_word", pass_word.getText().toString());
+                                                                MySingleton.getMyInstance(SignInActivity.this).addToRequestQueue(regStringRequest);
+                                                            }
+                                                        }
+                                                    }
+                    );
 
-                                                                     return params;
-                                                                 }
-                                                             };
-
-                                                             MySingleton.getMyInstance(SignInActivity.this).addToRequestQueue(regStringRequest);
-                                                         }
-                                                     }
-                                                 }
-                );
+                    closeRegBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            bottomSheetDialog.cancel();
+                        }
+                    });
+                } else {
+                    builder_create("Registration is not possible", "You have to select an alias to create your account!!");
+                }
             }
         });
     }
 
     private void builder_create(String title, String message) {
         error_builder.setTitle(title);
-        error_builder.setMessage(message);
-        error_builder.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel();
-            }
-        });
+
+        if(message.equals("forget")) {
+            error_builder.setMessage("Login failed!! Did you forget your password?");
+
+            error_builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+
+            error_builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+        } else {
+            error_builder.setMessage(message);
+            error_builder.setNegativeButton("Okay", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+        }
+
         AlertDialog alertDialog = error_builder.create();
         alertDialog.show();
     }

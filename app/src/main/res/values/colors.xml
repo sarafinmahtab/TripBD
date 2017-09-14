@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#378748</color>
-    <color name="colorPrimaryDark">#378748</color>
+    <color name="colorPrimary">#2d8357</color>
+    <color name="colorPrimaryDark">#2d8357</color>
+    <color name="colorSecondaryDark">#0c7332</color>
 
     <color name="colorAlternative">#3b3331</color>
     <color name="colorAlternativeDark">#8e9d8d</color>
@@ -10,7 +11,7 @@
 
     <color name="colorTripBDText">#1b0302</color>
 
-    <color name="fab1color">#DAF7A6</color>
+    <color name="fab1color">#a6ca65</color>
     <color name="fab2color">#FFC300</color>
     <color name="fab3color">#FF5733</color>
     <color name="fab4color">#C70039</color>
