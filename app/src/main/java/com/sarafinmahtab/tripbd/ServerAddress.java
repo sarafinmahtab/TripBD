@@ -5,7 +5,7 @@ package com.sarafinmahtab.tripbd;
  */
 
 public class ServerAddress {
-    private static String myServerAddress = "http://192.168.43.65/TripBD/";
+    private static String myServerAddress = "http://192.168.0.63/TripBD/";
 
     public static void setMyServerAddress(String myServerAddress) {
         ServerAddress.myServerAddress = myServerAddress;

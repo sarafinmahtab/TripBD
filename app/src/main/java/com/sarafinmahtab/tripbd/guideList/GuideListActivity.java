@@ -6,6 +6,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,7 +33,6 @@ import java.util.Map;
 public class GuideListActivity extends AppCompatActivity {
 
     String guideListUrl = ServerAddress.getMyServerAddress().concat("guide_list_for_hire.php");
-//    String guideListUrl = "http://192.168.43.65/TripBD/guide_list_for_hire.php";
 
     String pinPointID;
 
@@ -125,13 +125,6 @@ public class GuideListActivity extends AppCompatActivity {
             searchView.clearFocus();
         }
 
-//        stdSearchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchView.setIconified(false);
-//            }
-//        });
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -141,9 +134,6 @@ public class GuideListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-
-//                guideListAdapter.checkQueryFromList(newText.toLowerCase());
-//                Toast.makeText(StudentList.this, newText, Toast.LENGTH_LONG).show();
 
                 return true;
             }

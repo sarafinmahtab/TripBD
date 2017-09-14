@@ -41,8 +41,6 @@ public class GuideExpListAdapter extends RecyclerView.Adapter<GuideExpListAdapte
 
     private String uploadExpUrl = ServerAddress.getMyServerAddress().concat("upload_exp.php");
 
-//    private String uploadExpUrl = "http://192.168.0.63/TripBD/upload_exp.php";
-
     private String guideID;
 
     private List<GuideExpListItem> guideExpList;

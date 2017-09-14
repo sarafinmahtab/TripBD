@@ -35,9 +35,9 @@ public class DetailsActivity extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         pinPointID = bundle.getString("pin_point_id");
         url = bundle.getString("details_link");
-        url = ServerAddress.getMyServerAddress().concat(url);
+        url = ServerAddress.getMyServerAddress().concat("Asset/" + url);
 
-        WebView webView = (WebView) findViewById(R.id.webView);
+        final WebView webView = (WebView) findViewById(R.id.webView);
         WebSettings settings = webView.getSettings();
         settings.setLoadsImagesAutomatically(true);
         settings.setDefaultTextEncodingName("utf-8");
@@ -74,6 +74,7 @@ public class DetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(isOpen){
+                    webView.setAlpha(1.0f);
                     fabHome.startAnimation(FabClose);
                     fabGuide.startAnimation(FabClose);
                     fabHotel.startAnimation(FabClose);
@@ -101,6 +102,7 @@ public class DetailsActivity extends AppCompatActivity {
                     review.setBackgroundColor(Color.TRANSPARENT);
                     isOpen = false;
                 }else{
+                    webView.setAlpha(0.5f);
                     fabHome.startAnimation(FabOpen);
                     fabGuide.startAnimation(FabOpen);
                     fabHotel.startAnimation(FabOpen);

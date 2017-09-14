@@ -75,9 +75,6 @@ public class MainActivity extends AppCompatActivity
     String searchQueryRequestUrl = ServerAddress.getMyServerAddress().concat("searchview_place_name_query.php");
     String markerListUrl = ServerAddress.getMyServerAddress().concat("center_point_marker_loader.php");
 
-//    String searchQueryRequestUrl = "http://192.168.0.63/TripBD/searchview_place_name_query.php";
-//    String markerListUrl = "http://192.168.0.63/TripBD/center_point_marker_loader.php";
-
     GoogleMap homeGoogleMap;
     LocationRequest mLocationRequest;
     GoogleApiClient mGoogleApiClient;
@@ -165,13 +162,6 @@ public class MainActivity extends AppCompatActivity
         if(!searchView.isFocused()) {
             searchView.clearFocus();
         }
-
-//        searchView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                searchView.setIconified(false);
-//            }
-//        });
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override

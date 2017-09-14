@@ -33,7 +33,6 @@ import java.util.Map;
 public class UpdateGuideExpList extends Fragment {
 
     String expUrl = ServerAddress.getMyServerAddress().concat("exp_places.php");
-//    String expUrl = "http://192.168.0.63/TripBD/exp_places.php";
 
     SearchView guideExpListSsearchView;
     EditText guideExpListSearchEditText;

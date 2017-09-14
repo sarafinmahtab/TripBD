@@ -49,13 +49,12 @@ import java.util.Map;
 
 public class BroadActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    String pinPointListUrl = ServerAddress.getMyServerAddress().concat("pin_point_marker_loader.php");
+
     GoogleMap broadGoogleMap;
     LocationRequest broadLocationRequest;
     GoogleApiClient broadGoogleApiClient;
     Location broadLastLocation;
-
-    String pinPointListUrl = ServerAddress.getMyServerAddress().concat("pin_point_marker_loader.php");
-//    String pinPointListUrl = "http://192.168.0.63/TripBD/pin_point_marker_loader.php";
 
     String markerID, markerTitle;
     double latitude, longitude;

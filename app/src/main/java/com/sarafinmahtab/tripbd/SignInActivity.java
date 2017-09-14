@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -30,6 +31,9 @@ import java.util.Map;
 
 public class SignInActivity extends AppCompatActivity {
 
+    String guideLoginUrl = ServerAddress.getMyServerAddress().concat("login.php");
+    String guideRegUrl = ServerAddress.getMyServerAddress().concat("register.php");
+
     static boolean loggedIn = false;
 
     EditText Username, Password;
@@ -44,16 +48,13 @@ public class SignInActivity extends AppCompatActivity {
     private AlertDialog.Builder error_builder;
     private int radio_key = 0;
 
-    String guideLoginUrl = ServerAddress.getMyServerAddress().concat("login.php");
-    String guideRegUrl = ServerAddress.getMyServerAddress().concat("register.php");
-
-//    String guideLoginUrl = "http://192.168.0.63/TripBD/login.php";
-//    String guideRegUrl = "http://192.168.0.63/TripBD/register.php";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
+
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         onRadioButtonClick();
         OnSignInButtonClick();

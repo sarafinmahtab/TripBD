@@ -48,7 +48,7 @@ public class SearchQueryListAdapter extends RecyclerView.Adapter<SearchQueryList
                 Intent intent = new Intent(context, DetailsActivity.class);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("place_id", place.getPinPointID());
+                bundle.putString("pin_point_id", place.getPinPointID());
                 bundle.putString("details_link", place.getDetailsLink());
                 intent.putExtras(bundle);
 
