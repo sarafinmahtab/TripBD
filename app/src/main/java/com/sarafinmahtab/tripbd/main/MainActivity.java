@@ -58,6 +58,7 @@ import com.sarafinmahtab.tripbd.MySingleton;
 import com.sarafinmahtab.tripbd.R;
 import com.sarafinmahtab.tripbd.ServerAddress;
 import com.sarafinmahtab.tripbd.SignInActivity;
+import com.sarafinmahtab.tripbd.TravellerActivity;
 import com.sarafinmahtab.tripbd.guideProfile.GuideActivity;
 
 import org.json.JSONArray;
@@ -125,8 +126,6 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
         View header = navigationView.getHeaderView(0);
 //        View view=navigationView.inflateHeaderView(R.layout.nav_header_main);
-
-//        Bundles
 
         if(SignInActivity.isLoggedIn()) {
             Bundle bundle = getIntent().getExtras();
@@ -617,9 +616,16 @@ public class MainActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.nav_sign_in:
-                Intent intent;
+                Intent intent = null;
                 if(SignInActivity.isLoggedIn()) {
-                    intent = new Intent(MainActivity.this, GuideActivity.class);
+
+                    if(SignInActivity.getRadio_key() == 1) {
+                        intent = new Intent(MainActivity.this, TravellerActivity.class);
+                    } else if(SignInActivity.getRadio_key() == 2) {
+                        intent = new Intent(MainActivity.this, GuideActivity.class);
+                    } else {
+                        intent = new Intent(MainActivity.this, SignInActivity.class);
+                    }
 
                     Bundle bundle = new Bundle();
                     bundle.putString("user_name", userName);

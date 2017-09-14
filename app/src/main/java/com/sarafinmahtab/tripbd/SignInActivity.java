@@ -48,7 +48,7 @@ public class SignInActivity extends AppCompatActivity {
     RadioButton radioButton;
 
     private AlertDialog.Builder error_builder;
-    private int radio_key = 0;
+    static int radio_key = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -215,9 +215,11 @@ public class SignInActivity extends AppCompatActivity {
                                                                             switch(code) {
                                                                                 case "reg_failed":
                                                                                     builder_create("Registration Failed", jsonObject.getString("message"));
+                                                                                    break;
                                                                                 case "reg_success":
                                                                                     builder_create("Registration Success", jsonObject.getString("message"));
                                                                                     bottomSheetDialog.cancel();
+                                                                                    break;
                                                                             }
                                                                         } catch (JSONException e) {
                                                                             Toast.makeText(SignInActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
@@ -306,5 +308,9 @@ public class SignInActivity extends AppCompatActivity {
 
     public static boolean isLoggedIn() {
         return loggedIn;
+    }
+
+    public static int getRadio_key() {
+        return radio_key;
     }
 }
