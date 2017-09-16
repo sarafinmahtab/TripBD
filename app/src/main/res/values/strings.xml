@@ -24,7 +24,7 @@
     <string name="welcome_to_tripbd">Welcome to Trip BD</string>
     <string name="sign_in">Sign In</string>
     <string name="tour_guide">Tour Guide</string>
-    <string name="sign_in_header">Check Who you are?</string>
+    <string name="sign_in_header">Sign in to Get your Profile</string>
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
 
